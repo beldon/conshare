@@ -16,7 +16,7 @@
     <header class="layui-elip">用户登录</header>
     <form class="layui-form" action="javascript:return false;">
         <div class="layui-input-inline">
-            <input type="text" name="account" required="required"  lay-verify="required" placeholder="邮箱" autocomplete="off" class="layui-input" />
+            <input type="text" name="account" required="required"  lay-verify="required" placeholder="用户名" autocomplete="off" class="layui-input" />
         </div>
         <div class="layui-input-inline">
             <input type="password" name="password" required="required"  lay-verify="required" placeholder="密码" autocomplete="off" class="layui-input" />
@@ -53,6 +53,7 @@
                     console.log(data);
                     if(data.code===0) {
                         layer.msg("登录成功");
+                        setTimeout("window.location.href='/user/index'", 1000);
                     }else{
                         layer.msg(data.msg);
                     }

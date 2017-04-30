@@ -20,12 +20,6 @@ import static org.junit.Assert.*;
  * Copyright (c)  2017/4/30, All Rights Reserved.
  * http://beldon.me
  */
-//@WebAppConfiguration
-//@RunWith(SpringJUnit4ClassRunner.class)
-//@SpringBootTest(classes = ConShareApplication.class)
-//@ConditionalOnClass(SpringTemplateEngine.class)
-//@Configuration
-//@WebAppConfiguration
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = ConShareApplication.class)
 public class ICollectCategoryServiceTest {
@@ -35,7 +29,6 @@ public class ICollectCategoryServiceTest {
 
     @Test
     public void insert() throws Exception {
-        collectCategoryService.insert();
     }
 
 }

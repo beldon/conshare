@@ -28,7 +28,6 @@ public class IndexController extends FrontControllerBase{
     @RequestMapping("/test")
     @ResponseBody
     public ResData test() {
-        collectCategoryService.insert();
         return ResDataUtils.success("成功");
     }
 }

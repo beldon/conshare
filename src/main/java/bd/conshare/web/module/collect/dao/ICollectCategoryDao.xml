@@ -5,7 +5,7 @@
         <id column="id" property="id" jdbcType="VARCHAR" /> <!--收藏分类id-->
         <result column="name" property="name" jdbcType="VARCHAR" /> <!--收藏分类名称-->
         <result column="uid" property="uid" jdbcType="VARCHAR" /> <!--用户id-->
-        <result column="pid" property="pid" jdbcType="VARCHAR" /> <!--父id，默认是'roo'-->
+        <result column="pid" property="pid" jdbcType="VARCHAR" /> <!--父id，默认是'root'-->
         <result column="sort" property="sort" jdbcType="BIGINT" /> <!--排序,越小越靠前-->
         <result column="cre_time" property="creTime" jdbcType="TIMESTAMP" /> <!--创建时间-->
         <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" /> <!--最后更新时间-->
@@ -14,7 +14,7 @@
     <sql id="columns_no_id">
         name,<!--收藏分类名称-->
         uid,<!--用户id-->
-        pid,<!--父id，默认是'roo'-->
+        pid,<!--父id，默认是'root'-->
         sort,<!--排序,越小越靠前-->
         cre_time,<!--创建时间-->
         update_time<!--最后更新时间-->
@@ -28,7 +28,7 @@
     <sql id="properties_no_id">
         #{name},<!--收藏分类名称-->
         #{uid},<!--用户id-->
-        #{pid},<!--父id，默认是'roo'-->
+        #{pid},<!--父id，默认是'root'-->
         #{sort},<!--排序,越小越靠前-->
         #{creTime},<!--创建时间-->
         #{updateTime}<!--最后更新时间-->
@@ -64,7 +64,7 @@
                 uid,<!--用户id-->
              </if>
             <if test="pid != null" >
-                pid,<!--父id，默认是'roo'-->
+                pid,<!--父id，默认是'root'-->
              </if>
             <if test="sort != null" >
                 sort,<!--排序,越小越靠前-->
@@ -87,7 +87,7 @@
                 #{uid},<!--用户id-->
             </if>
             <if test="pid != null" >
-                #{pid},<!--父id，默认是'roo'-->
+                #{pid},<!--父id，默认是'root'-->
             </if>
             <if test="sort != null" >
                 #{sort},<!--排序,越小越靠前-->
@@ -107,7 +107,7 @@
         <set >
             name= #{name},<!--收藏分类名称-->
             uid= #{uid},<!--用户id-->
-            pid= #{pid},<!--父id，默认是'roo'-->
+            pid= #{pid},<!--父id，默认是'root'-->
             sort= #{sort},<!--排序,越小越靠前-->
             cre_time= #{creTime},<!--创建时间-->
             update_time= #{updateTime}<!--最后更新时间-->
@@ -125,7 +125,7 @@
                 uid= #{uid},<!--用户id-->
              </if>
              <if test="pid != null" >
-                pid= #{pid},<!--父id，默认是'roo'-->
+                pid= #{pid},<!--父id，默认是'root'-->
              </if>
              <if test="sort != null" >
                 sort= #{sort},<!--排序,越小越靠前-->
@@ -149,7 +149,7 @@
                         <trim suffixOverrides="AND">
                             <if test="query.domain.name != null">name= #{query.domain.name} AND </if><!--收藏分类名称-->
                             <if test="query.domain.uid != null">uid= #{query.domain.uid} AND </if><!--用户id-->
-                            <if test="query.domain.pid != null">pid= #{query.domain.pid} AND </if><!--父id，默认是'roo'-->
+                            <if test="query.domain.pid != null">pid= #{query.domain.pid} AND </if><!--父id，默认是'root'-->
                             <if test="query.domain.sort != null">sort= #{query.domain.sort} AND </if><!--排序,越小越靠前-->
                             <if test="query.domain.creTime != null">cre_time= #{query.domain.creTime} AND </if><!--创建时间-->
                             <if test="query.domain.updateTime != null">update_time= #{query.domain.updateTime}</if><!--最后更新时间-->

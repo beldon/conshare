@@ -23,7 +23,7 @@ public class CollectCategory {
     */
     private String uid;
     /**
-    * 父id，默认是'roo'
+    * 父id，默认是'root'
     */
     private String pid;
     /**
