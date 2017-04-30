@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>云收藏 | 让收藏更简单</title>
+
+</head>
+<body>
+
+<form id="actionForm">
+    <input type="text" name="account" />
+
+    <input type="text" name="password" />
+
+
+</form>
+<input type="submit" id="submit" />
+
+<script type="text/javascript" src="/static/plugins/jquery/jquery-3.2.0.min.js"></script>
+
+<script>
+    $(function () {
+        $('#submit').click(function () {
+            var url = 'doLogin.json';
+            $.ajax({
+                url: url,
+                data: $('#actionForm').serialize(),
+                type:'post',
+                success:function (data) {
+                    console.log(data);
+                }
+            });
+        });
+    });
+</script>
+
+</body>
+</html>
