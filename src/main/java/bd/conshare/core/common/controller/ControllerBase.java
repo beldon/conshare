@@ -4,6 +4,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 
 
@@ -53,6 +55,29 @@ public abstract class ControllerBase {
         debugInfo(msg, null);
     }
 
+
+    public UserDetails getCurrentUserDetails() {
+        return (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    }
+
+    /**
+     * 获取当前用户名称
+     *
+     * @return
+     */
+    public String getCurrentUserAccount() {
+        UserDetails userDetails = getCurrentUserDetails();
+        return userDetails == null ? "" : userDetails.getUsername();
+    }
+
+    /**
+     * 获取当前用户id
+     *
+     * @return
+     */
+    public String getCurrentUid() {
+        return "beldon";
+    }
 
     /**
      * url跳转

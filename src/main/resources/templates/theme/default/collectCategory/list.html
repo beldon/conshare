@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8" />
     <meta name="renderer" content="webkit" />
@@ -21,51 +21,20 @@
 <table id="dateTable" class="layui-table">
     <thead>
     <tr>
-        <th><input type="checkbox" class="my-checkbox" /></th>
         <th>名称</th>
-        <th>型号</th>
-        <th>规格</th>
-        <th>价格</th>
-        <th>简介</th>
+        <th>排序</th>
+        <th>收藏数量</th>
+        <th>创建时间</th>
         <th>操作</th>
     </tr>
     </thead>
     <tbody>
-    <tr>
-        <td><input type="checkbox" class="my-checkbox" data-id="1" /></td>
-        <td>心相印红悦卫生纸卷纸3层*12卷1</td>
-        <td>X1121</td>
-        <td>大</td>
-        <td>￥25.5</td>
-        <td>心相印红悦卫生纸卷纸3层*12卷</td>
+    <tr th:each="category,categoryStat : ${categorys}" th:id="${category.id}">
+        <td th:text="${category.name}">分类名称</td>
+        <td th:text="${category.sort}">排序</td>
+        <td th:text="${category.count}">收藏数</td>
+        <td th:text="${#calendars.format(category.creTime,'yyyy-MM-dd')}">创建日期</td>
         <td>
-            <button class="layui-btn layui-btn-small">查看</button>
-            <button class="layui-btn layui-btn-small layui-btn-normal">编辑</button>
-            <button class="layui-btn layui-btn-small layui-btn-danger">删除</button>
-        </td>
-    </tr>
-    <tr>
-        <td><input type="checkbox" class="my-checkbox" data-id="7" /></td>
-        <td>心相印红悦卫生纸卷纸3层*12卷7</td>
-        <td>X1121</td>
-        <td>大</td>
-        <td>￥25.5</td>
-        <td>心相印红悦卫生纸卷纸3层*12卷</td>
-        <td>
-            <button class="layui-btn layui-btn-small">查看</button>
-            <button class="layui-btn layui-btn-small layui-btn-normal">编辑</button>
-            <button class="layui-btn layui-btn-small layui-btn-danger">删除</button>
-        </td>
-    </tr>
-    <tr>
-        <td><input type="checkbox" class="my-checkbox" data-id="8" /></td>
-        <td>心相印红悦卫生纸卷纸3层*12卷8</td>
-        <td>X1121</td>
-        <td>中</td>
-        <td>￥25.5</td>
-        <td>心相印红悦卫生纸卷纸3层*12卷</td>
-        <td>
-            <button class="layui-btn layui-btn-small">查看</button>
             <button class="layui-btn layui-btn-small layui-btn-normal">编辑</button>
             <button class="layui-btn layui-btn-small layui-btn-danger">删除</button>
         </td>
