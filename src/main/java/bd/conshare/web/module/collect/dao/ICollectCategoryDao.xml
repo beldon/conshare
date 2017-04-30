@@ -7,6 +7,7 @@
         <result column="uid" property="uid" jdbcType="VARCHAR" /> <!--用户id-->
         <result column="pid" property="pid" jdbcType="VARCHAR" /> <!--父id，默认是'root'-->
         <result column="sort" property="sort" jdbcType="BIGINT" /> <!--排序,越小越靠前-->
+        <result column="count" property="count" jdbcType="BIGINT" /> <!--收藏数量-->
         <result column="cre_time" property="creTime" jdbcType="TIMESTAMP" /> <!--创建时间-->
         <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" /> <!--最后更新时间-->
     </resultMap>
@@ -16,6 +17,7 @@
         uid,<!--用户id-->
         pid,<!--父id，默认是'root'-->
         sort,<!--排序,越小越靠前-->
+        count,<!--收藏数量-->
         cre_time,<!--创建时间-->
         update_time<!--最后更新时间-->
     </sql>
@@ -30,6 +32,7 @@
         #{uid},<!--用户id-->
         #{pid},<!--父id，默认是'root'-->
         #{sort},<!--排序,越小越靠前-->
+        #{count},<!--收藏数量-->
         #{creTime},<!--创建时间-->
         #{updateTime}<!--最后更新时间-->
     </sql>
@@ -69,6 +72,9 @@
             <if test="sort != null" >
                 sort,<!--排序,越小越靠前-->
              </if>
+            <if test="count != null" >
+                count,<!--收藏数量-->
+             </if>
             <if test="creTime != null" >
                 cre_time,<!--创建时间-->
              </if>
@@ -92,6 +98,9 @@
             <if test="sort != null" >
                 #{sort},<!--排序,越小越靠前-->
             </if>
+            <if test="count != null" >
+                #{count},<!--收藏数量-->
+            </if>
             <if test="creTime != null" >
                 #{creTime},<!--创建时间-->
             </if>
@@ -109,6 +118,7 @@
             uid= #{uid},<!--用户id-->
             pid= #{pid},<!--父id，默认是'root'-->
             sort= #{sort},<!--排序,越小越靠前-->
+            count= #{count},<!--收藏数量-->
             cre_time= #{creTime},<!--创建时间-->
             update_time= #{updateTime}<!--最后更新时间-->
         </set>
@@ -129,6 +139,9 @@
              </if>
              <if test="sort != null" >
                 sort= #{sort},<!--排序,越小越靠前-->
+             </if>
+             <if test="count != null" >
+                count= #{count},<!--收藏数量-->
              </if>
              <if test="creTime != null" >
                 cre_time= #{creTime},<!--创建时间-->
@@ -151,6 +164,7 @@
                             <if test="query.domain.uid != null">uid= #{query.domain.uid} AND </if><!--用户id-->
                             <if test="query.domain.pid != null">pid= #{query.domain.pid} AND </if><!--父id，默认是'root'-->
                             <if test="query.domain.sort != null">sort= #{query.domain.sort} AND </if><!--排序,越小越靠前-->
+                            <if test="query.domain.count != null">count= #{query.domain.count} AND </if><!--收藏数量-->
                             <if test="query.domain.creTime != null">cre_time= #{query.domain.creTime} AND </if><!--创建时间-->
                             <if test="query.domain.updateTime != null">update_time= #{query.domain.updateTime}</if><!--最后更新时间-->
                         </trim>

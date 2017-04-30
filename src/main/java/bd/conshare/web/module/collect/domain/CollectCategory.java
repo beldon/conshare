@@ -31,6 +31,10 @@ public class CollectCategory {
     */
     private Long sort;
     /**
+    * 收藏数量
+    */
+    private Long count;
+    /**
     * 创建时间
     */
     private Date creTime;
@@ -77,6 +81,14 @@ public class CollectCategory {
 
     public void setSort(Long sort) {
         this.sort = sort;
+    }
+
+    public Long getCount() {
+        return count;
+    }
+
+    public void setCount(Long count) {
+        this.count = count;
     }
 
     public Date getCreTime() {
