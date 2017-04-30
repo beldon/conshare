@@ -20,7 +20,6 @@ import org.springframework.security.crypto.password.StandardPasswordEncoder;
  */
 @Configuration
 @EnableWebSecurity
-//@EnableGlobalMethodSecurity(prePostEnabled = true)//开启security注解
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private static final String PASSWORD_SECRET = "beldon";

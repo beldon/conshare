@@ -31,7 +31,6 @@ spring:
   thymeleaf:
     cache: false
     encoding: UTF-8
-
 #    schema: import.sql
 
 #mybatis:

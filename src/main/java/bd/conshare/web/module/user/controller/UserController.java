@@ -16,9 +16,19 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping("/user")
 public class UserController extends FrontControllerBase{
 
+    @RequestMapping({"/index","/"})
+    public String index() {
+        return getTemplate("user/index");
+    }
+
+    @RequestMapping("/welcome")
+    public String welcome() {
+        return getTemplate("user/welcome");
+    }
+
     @RequestMapping("/login")
     public String login() {
-        return "/theme/default/user/login";
+        return getTemplate("user/login");
     }
 
     @RequestMapping("/doLogin.json")
