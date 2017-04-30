@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bd.conshare.web.module.collect.dao.ICollectDao">
+    <resultMap id="BaseResultMap" type="bd.conshare.web.module.collect.domain.Collect">
+        <id column="id" property="id" jdbcType="VARCHAR" /> <!--收藏id-->
+        <result column="title" property="title" jdbcType="VARCHAR" /> <!--标题-->
+        <result column="description" property="description" jdbcType="VARCHAR" /> <!--描述-->
+        <result column="url" property="url" jdbcType="VARCHAR" /> <!--网址-->
+        <result column="favicon" property="favicon" jdbcType="VARCHAR" /> <!--favicon-->
+        <result column="logo_url" property="logoUrl" jdbcType="VARCHAR" /> <!--logo链接-->
+        <result column="charset" property="charset" jdbcType="VARCHAR" /> <!--网页编码-->
+        <result column="remark" property="remark" jdbcType="VARCHAR" /> <!--备注-->
+        <result column="category_id" property="categoryId" jdbcType="VARCHAR" /> <!--分类id-->
+        <result column="uid" property="uid" jdbcType="VARCHAR" /> <!--用户id-->
+        <result column="cre_time" property="creTime" jdbcType="TIMESTAMP" /> <!--创建时间-->
+        <result column="enable" property="enable" jdbcType="BIT" /> <!--是否可用，1-true，0-false-->
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" /> <!--更新时间-->
+        <result column="share" property="share" jdbcType="BIT" /> <!--是否分享，1-true，0-false-->
+        <result column="client_count" property="clientCount" jdbcType="BIGINT" /> <!--点击数-->
+    </resultMap>
+    <!-- 除了id以外全部属性 -->
+    <sql id="columns_no_id">
+        title,<!--标题-->
+        description,<!--描述-->
+        url,<!--网址-->
+        favicon,<!--favicon-->
+        logo_url,<!--logo链接-->
+        charset,<!--网页编码-->
+        remark,<!--备注-->
+        category_id,<!--分类id-->
+        uid,<!--用户id-->
+        cre_time,<!--创建时间-->
+        enable,<!--是否可用，1-true，0-false-->
+        update_time,<!--更新时间-->
+        share,<!--是否分享，1-true，0-false-->
+        client_count<!--点击数-->
+    </sql>
+
+    <!-- 包括id在内全部属性 -->
+    <sql id="columns_all">
+        id,<include refid="columns_no_id"/>
+    </sql>
+
+    <sql id="properties_no_id">
+        #{title},<!--标题-->
+        #{description},<!--描述-->
+        #{url},<!--网址-->
+        #{favicon},<!--favicon-->
+        #{logoUrl},<!--logo链接-->
+        #{charset},<!--网页编码-->
+        #{remark},<!--备注-->
+        #{categoryId},<!--分类id-->
+        #{uid},<!--用户id-->
+        #{creTime},<!--创建时间-->
+        #{enable},<!--是否可用，1-true，0-false-->
+        #{updateTime},<!--更新时间-->
+        #{share},<!--是否分享，1-true，0-false-->
+        #{clientCount}<!--点击数-->
+    </sql>
+    <!-- 包括id在内全部属性 -->
+    <sql id="properties_all">
+        #{id},<include refid="properties_no_id"/>
+    </sql>
+
+    <!--普通插入-->
+    <insert id="insert" parameterType="bd.conshare.web.module.collect.domain.Collect">
+        <selectKey keyProperty="id" resultType="String" order="BEFORE">
+            select  replace(uuid(),'-','')
+        </selectKey>
+        insert into t_collect (<include refid="columns_all"/>)
+        values (<include refid="properties_all" />)
+    </insert>
+
+    <!--非空插入-->
+    <insert id="insertSelective" parameterType="bd.conshare.web.module.collect.domain.Collect" >
+        <selectKey keyProperty="id" resultType="String" order="BEFORE">
+            select  replace(uuid(),'-','')
+        </selectKey>
+        insert into t_collect
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                id,<!--收藏id-->
+             </if>
+            <if test="title != null" >
+                title,<!--标题-->
+             </if>
+            <if test="description != null" >
+                description,<!--描述-->
+             </if>
+            <if test="url != null" >
+                url,<!--网址-->
+             </if>
+            <if test="favicon != null" >
+                favicon,<!--favicon-->
+             </if>
+            <if test="logoUrl != null" >
+                logo_url,<!--logo链接-->
+             </if>
+            <if test="charset != null" >
+                charset,<!--网页编码-->
+             </if>
+            <if test="remark != null" >
+                remark,<!--备注-->
+             </if>
+            <if test="categoryId != null" >
+                category_id,<!--分类id-->
+             </if>
+            <if test="uid != null" >
+                uid,<!--用户id-->
+             </if>
+            <if test="creTime != null" >
+                cre_time,<!--创建时间-->
+             </if>
+            <if test="enable != null" >
+                enable,<!--是否可用，1-true，0-false-->
+             </if>
+            <if test="updateTime != null" >
+                update_time,<!--更新时间-->
+             </if>
+            <if test="share != null" >
+                share,<!--是否分享，1-true，0-false-->
+             </if>
+            <if test="clientCount != null" >
+                client_count<!--点击数-->
+             </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                #{id},<!--收藏id-->
+            </if>
+            <if test="title != null" >
+                #{title},<!--标题-->
+            </if>
+            <if test="description != null" >
+                #{description},<!--描述-->
+            </if>
+            <if test="url != null" >
+                #{url},<!--网址-->
+            </if>
+            <if test="favicon != null" >
+                #{favicon},<!--favicon-->
+            </if>
+            <if test="logoUrl != null" >
+                #{logoUrl},<!--logo链接-->
+            </if>
+            <if test="charset != null" >
+                #{charset},<!--网页编码-->
+            </if>
+            <if test="remark != null" >
+                #{remark},<!--备注-->
+            </if>
+            <if test="categoryId != null" >
+                #{categoryId},<!--分类id-->
+            </if>
+            <if test="uid != null" >
+                #{uid},<!--用户id-->
+            </if>
+            <if test="creTime != null" >
+                #{creTime},<!--创建时间-->
+            </if>
+            <if test="enable != null" >
+                #{enable},<!--是否可用，1-true，0-false-->
+            </if>
+            <if test="updateTime != null" >
+                #{updateTime},<!--更新时间-->
+            </if>
+            <if test="share != null" >
+                #{share},<!--是否分享，1-true，0-false-->
+            </if>
+            <if test="clientCount != null" >
+                #{clientCount}<!--点击数-->
+            </if>
+        </trim>
+    </insert>
+
+    <!--更新所有-->
+    <update id="updateByPrimaryKey" parameterType="bd.conshare.web.module.collect.domain.Collect" >
+        update t_collect
+        <set >
+            title= #{title},<!--标题-->
+            description= #{description},<!--描述-->
+            url= #{url},<!--网址-->
+            favicon= #{favicon},<!--favicon-->
+            logo_url= #{logoUrl},<!--logo链接-->
+            charset= #{charset},<!--网页编码-->
+            remark= #{remark},<!--备注-->
+            category_id= #{categoryId},<!--分类id-->
+            uid= #{uid},<!--用户id-->
+            cre_time= #{creTime},<!--创建时间-->
+            enable= #{enable},<!--是否可用，1-true，0-false-->
+            update_time= #{updateTime},<!--更新时间-->
+            share= #{share},<!--是否分享，1-true，0-false-->
+            client_count= #{clientCount}<!--点击数-->
+        </set>
+        where id = #{id}
+    </update>
+    <!--更新非空-->
+    <update id="updateByPrimaryKeySelective" parameterType="bd.conshare.web.module.collect.domain.Collect" >
+        update t_collect
+        <set >
+             <if test="title != null" >
+                title= #{title},<!--标题-->
+             </if>
+             <if test="description != null" >
+                description= #{description},<!--描述-->
+             </if>
+             <if test="url != null" >
+                url= #{url},<!--网址-->
+             </if>
+             <if test="favicon != null" >
+                favicon= #{favicon},<!--favicon-->
+             </if>
+             <if test="logoUrl != null" >
+                logo_url= #{logoUrl},<!--logo链接-->
+             </if>
+             <if test="charset != null" >
+                charset= #{charset},<!--网页编码-->
+             </if>
+             <if test="remark != null" >
+                remark= #{remark},<!--备注-->
+             </if>
+             <if test="categoryId != null" >
+                category_id= #{categoryId},<!--分类id-->
+             </if>
+             <if test="uid != null" >
+                uid= #{uid},<!--用户id-->
+             </if>
+             <if test="creTime != null" >
+                cre_time= #{creTime},<!--创建时间-->
+             </if>
+             <if test="enable != null" >
+                enable= #{enable},<!--是否可用，1-true，0-false-->
+             </if>
+             <if test="updateTime != null" >
+                update_time= #{updateTime},<!--更新时间-->
+             </if>
+             <if test="share != null" >
+                share= #{share},<!--是否分享，1-true，0-false-->
+             </if>
+             <if test="clientCount != null" >
+                client_count= #{clientCount}<!--点击数-->
+             </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <select id="query" resultMap="BaseResultMap">
+        select * from t_collect
+        <where>
+            <if test="query != null">
+                <trim suffixOverrides="AND">
+                    <if test="query.domain != null">
+                        <trim suffixOverrides="AND">
+                            <if test="query.domain.title != null">title= #{query.domain.title} AND </if><!--标题-->
+                            <if test="query.domain.description != null">description= #{query.domain.description} AND </if><!--描述-->
+                            <if test="query.domain.url != null">url= #{query.domain.url} AND </if><!--网址-->
+                            <if test="query.domain.favicon != null">favicon= #{query.domain.favicon} AND </if><!--favicon-->
+                            <if test="query.domain.logoUrl != null">logo_url= #{query.domain.logoUrl} AND </if><!--logo链接-->
+                            <if test="query.domain.charset != null">charset= #{query.domain.charset} AND </if><!--网页编码-->
+                            <if test="query.domain.remark != null">remark= #{query.domain.remark} AND </if><!--备注-->
+                            <if test="query.domain.categoryId != null">category_id= #{query.domain.categoryId} AND </if><!--分类id-->
+                            <if test="query.domain.uid != null">uid= #{query.domain.uid} AND </if><!--用户id-->
+                            <if test="query.domain.creTime != null">cre_time= #{query.domain.creTime} AND </if><!--创建时间-->
+                            <if test="query.domain.enable != null">enable= #{query.domain.enable} AND </if><!--是否可用，1-true，0-false-->
+                            <if test="query.domain.updateTime != null">update_time= #{query.domain.updateTime} AND </if><!--更新时间-->
+                            <if test="query.domain.share != null">share= #{query.domain.share} AND </if><!--是否分享，1-true，0-false-->
+                            <if test="query.domain.clientCount != null">client_count= #{query.domain.clientCount}</if><!--点击数-->
+                        </trim>
+                        AND
+                    </if>
+
+                    <if test="query.compares != null">
+                        <trim suffixOverrides="AND">
+                            <foreach collection="query.compares" item="compare" separator="AND">
+                                `${compare.column}`
+                                <choose>
+                                    <when test="compare.type == 'lt'">&lt;</when>
+                                    <when test="compare.type == 'lte'">&lt;=</when>
+                                    <when test="compare.type == 'gt'">&gt;</when>
+                                    <when test="compare.type == 'gte'">&gt;=</when>
+                                </choose>
+                                '${compare.value}'
+                            </foreach>
+                        </trim>
+                        AND
+                    </if>
+
+                    <if test="query.andLikes != null">
+                        <trim suffixOverrides="AND">
+                            <foreach collection="query.andLikes" item="like" separator="AND">
+                                `${like.column}` like
+                                <choose>
+                                    <when test="like.leftLike and like.rightLike">concat('%','${like.keyword}','%')
+                                    </when>
+                                    <when test="like.leftLike">concat('%','${like.keyword}','')</when>
+                                    <when test="like.rightLike">concat('','${like.keyword}','%')</when>
+                                </choose>
+                            </foreach>
+                        </trim>
+                        AND
+                    </if>
+                    <if test="query.orLikes != null">
+                        <trim suffixOverrides="AND" prefix="(" suffix=")">
+                            <foreach collection="query.orLikes" item="like" separator="OR">
+                                `${like.column}` like
+                                <choose>
+                                    <when test="like.leftLike and like.rightLike">concat('%','${like.keyword}','%')
+                                    </when>
+                                    <when test="like.leftLike">concat('%','${like.keyword}','')</when>
+                                    <when test="like.rightLike">concat('','${like.keyword}','%')</when>
+                                </choose>
+                            </foreach>
+                        </trim>
+                    </if>
+                </trim>
+
+                <if test="query.orders != null">
+                    order by
+                    <foreach collection="query.orders" item="order" separator=",">
+                        `${order.column}` ${order.type}
+                    </foreach>
+                </if>
+
+            </if>
+        </where>
+    </select>
+
+</mapper>

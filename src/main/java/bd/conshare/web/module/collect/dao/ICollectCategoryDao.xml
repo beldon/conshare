@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bd.conshare.web.module.collect.dao.ICollectCategoryDao">
+    <resultMap id="BaseResultMap" type="bd.conshare.web.module.collect.domain.CollectCategory">
+        <id column="id" property="id" jdbcType="VARCHAR" /> <!--收藏分类id-->
+        <result column="name" property="name" jdbcType="VARCHAR" /> <!--收藏分类名称-->
+        <result column="uid" property="uid" jdbcType="VARCHAR" /> <!--用户id-->
+        <result column="pid" property="pid" jdbcType="VARCHAR" /> <!--父id，默认是'roo'-->
+        <result column="sort" property="sort" jdbcType="BIGINT" /> <!--排序,越小越靠前-->
+        <result column="cre_time" property="creTime" jdbcType="TIMESTAMP" /> <!--创建时间-->
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" /> <!--最后更新时间-->
+    </resultMap>
+    <!-- 除了id以外全部属性 -->
+    <sql id="columns_no_id">
+        name,<!--收藏分类名称-->
+        uid,<!--用户id-->
+        pid,<!--父id，默认是'roo'-->
+        sort,<!--排序,越小越靠前-->
+        cre_time,<!--创建时间-->
+        update_time<!--最后更新时间-->
+    </sql>
+
+    <!-- 包括id在内全部属性 -->
+    <sql id="columns_all">
+        id,<include refid="columns_no_id"/>
+    </sql>
+
+    <sql id="properties_no_id">
+        #{name},<!--收藏分类名称-->
+        #{uid},<!--用户id-->
+        #{pid},<!--父id，默认是'roo'-->
+        #{sort},<!--排序,越小越靠前-->
+        #{creTime},<!--创建时间-->
+        #{updateTime}<!--最后更新时间-->
+    </sql>
+    <!-- 包括id在内全部属性 -->
+    <sql id="properties_all">
+        #{id},<include refid="properties_no_id"/>
+    </sql>
+
+    <!--普通插入-->
+    <insert id="insert" parameterType="bd.conshare.web.module.collect.domain.CollectCategory">
+        <selectKey keyProperty="id" resultType="String" order="BEFORE">
+            select  replace(uuid(),'-','')
+        </selectKey>
+        insert into t_collect_category (<include refid="columns_all"/>)
+        values (<include refid="properties_all" />)
+    </insert>
+
+    <!--非空插入-->
+    <insert id="insertSelective" parameterType="bd.conshare.web.module.collect.domain.CollectCategory" >
+        <selectKey keyProperty="id" resultType="String" order="BEFORE">
+            select  replace(uuid(),'-','')
+        </selectKey>
+        insert into t_collect_category
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                id,<!--收藏分类id-->
+             </if>
+            <if test="name != null" >
+                name,<!--收藏分类名称-->
+             </if>
+            <if test="uid != null" >
+                uid,<!--用户id-->
+             </if>
+            <if test="pid != null" >
+                pid,<!--父id，默认是'roo'-->
+             </if>
+            <if test="sort != null" >
+                sort,<!--排序,越小越靠前-->
+             </if>
+            <if test="creTime != null" >
+                cre_time,<!--创建时间-->
+             </if>
+            <if test="updateTime != null" >
+                update_time<!--最后更新时间-->
+             </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                #{id},<!--收藏分类id-->
+            </if>
+            <if test="name != null" >
+                #{name},<!--收藏分类名称-->
+            </if>
+            <if test="uid != null" >
+                #{uid},<!--用户id-->
+            </if>
+            <if test="pid != null" >
+                #{pid},<!--父id，默认是'roo'-->
+            </if>
+            <if test="sort != null" >
+                #{sort},<!--排序,越小越靠前-->
+            </if>
+            <if test="creTime != null" >
+                #{creTime},<!--创建时间-->
+            </if>
+            <if test="updateTime != null" >
+                #{updateTime}<!--最后更新时间-->
+            </if>
+        </trim>
+    </insert>
+
+    <!--更新所有-->
+    <update id="updateByPrimaryKey" parameterType="bd.conshare.web.module.collect.domain.CollectCategory" >
+        update t_collect_category
+        <set >
+            name= #{name},<!--收藏分类名称-->
+            uid= #{uid},<!--用户id-->
+            pid= #{pid},<!--父id，默认是'roo'-->
+            sort= #{sort},<!--排序,越小越靠前-->
+            cre_time= #{creTime},<!--创建时间-->
+            update_time= #{updateTime}<!--最后更新时间-->
+        </set>
+        where id = #{id}
+    </update>
+    <!--更新非空-->
+    <update id="updateByPrimaryKeySelective" parameterType="bd.conshare.web.module.collect.domain.CollectCategory" >
+        update t_collect_category
+        <set >
+             <if test="name != null" >
+                name= #{name},<!--收藏分类名称-->
+             </if>
+             <if test="uid != null" >
+                uid= #{uid},<!--用户id-->
+             </if>
+             <if test="pid != null" >
+                pid= #{pid},<!--父id，默认是'roo'-->
+             </if>
+             <if test="sort != null" >
+                sort= #{sort},<!--排序,越小越靠前-->
+             </if>
+             <if test="creTime != null" >
+                cre_time= #{creTime},<!--创建时间-->
+             </if>
+             <if test="updateTime != null" >
+                update_time= #{updateTime}<!--最后更新时间-->
+             </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <select id="query" resultMap="BaseResultMap">
+        select * from t_collect_category
+        <where>
+            <if test="query != null">
+                <trim suffixOverrides="AND">
+                    <if test="query.domain != null">
+                        <trim suffixOverrides="AND">
+                            <if test="query.domain.name != null">name= #{query.domain.name} AND </if><!--收藏分类名称-->
+                            <if test="query.domain.uid != null">uid= #{query.domain.uid} AND </if><!--用户id-->
+                            <if test="query.domain.pid != null">pid= #{query.domain.pid} AND </if><!--父id，默认是'roo'-->
+                            <if test="query.domain.sort != null">sort= #{query.domain.sort} AND </if><!--排序,越小越靠前-->
+                            <if test="query.domain.creTime != null">cre_time= #{query.domain.creTime} AND </if><!--创建时间-->
+                            <if test="query.domain.updateTime != null">update_time= #{query.domain.updateTime}</if><!--最后更新时间-->
+                        </trim>
+                        AND
+                    </if>
+
+                    <if test="query.compares != null">
+                        <trim suffixOverrides="AND">
+                            <foreach collection="query.compares" item="compare" separator="AND">
+                                `${compare.column}`
+                                <choose>
+                                    <when test="compare.type == 'lt'">&lt;</when>
+                                    <when test="compare.type == 'lte'">&lt;=</when>
+                                    <when test="compare.type == 'gt'">&gt;</when>
+                                    <when test="compare.type == 'gte'">&gt;=</when>
+                                </choose>
+                                '${compare.value}'
+                            </foreach>
+                        </trim>
+                        AND
+                    </if>
+
+                    <if test="query.andLikes != null">
+                        <trim suffixOverrides="AND">
+                            <foreach collection="query.andLikes" item="like" separator="AND">
+                                `${like.column}` like
+                                <choose>
+                                    <when test="like.leftLike and like.rightLike">concat('%','${like.keyword}','%')
+                                    </when>
+                                    <when test="like.leftLike">concat('%','${like.keyword}','')</when>
+                                    <when test="like.rightLike">concat('','${like.keyword}','%')</when>
+                                </choose>
+                            </foreach>
+                        </trim>
+                        AND
+                    </if>
+                    <if test="query.orLikes != null">
+                        <trim suffixOverrides="AND" prefix="(" suffix=")">
+                            <foreach collection="query.orLikes" item="like" separator="OR">
+                                `${like.column}` like
+                                <choose>
+                                    <when test="like.leftLike and like.rightLike">concat('%','${like.keyword}','%')
+                                    </when>
+                                    <when test="like.leftLike">concat('%','${like.keyword}','')</when>
+                                    <when test="like.rightLike">concat('','${like.keyword}','%')</when>
+                                </choose>
+                            </foreach>
+                        </trim>
+                    </if>
+                </trim>
+
+                <if test="query.orders != null">
+                    order by
+                    <foreach collection="query.orders" item="order" separator=",">
+                        `${order.column}` ${order.type}
+                    </foreach>
+                </if>
+
+            </if>
+        </where>
+    </select>
+
+</mapper>
