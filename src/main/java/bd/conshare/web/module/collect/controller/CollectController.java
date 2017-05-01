@@ -49,11 +49,16 @@ public class CollectController extends FrontControllerBase{
     public ResData addCollect(@ModelAttribute("collect") Collect collect,@RequestParam(value = "categoryId",required = false) String categoryId,
                               @RequestParam(value = "newCategory",required = false) String newCategory) {
         String uid = getCurrentUid();
+
+        if (StringUtils.hasText(newCategory)) {
+            collectCategoryService.findOrNewByName(uid, newCategory).ifPresent(collectCategory -> collect.setCategoryId(collectCategory.getId()));
+        } else if (StringUtils.hasText(categoryId)) {
+            Optional<CollectCategory> categoryOptional = collectCategoryService.findById(categoryId);
+            categoryOptional.ifPresent(collectCategory -> collect.setCategoryId(collectCategory.getId()));
+        }
+
         collect.setUid(uid);
         Optional<Collect> collectOptional = collectService.addSave(collect);
-        if (collectOptional.isPresent()) {
-            return ResDataUtils.success("success", collectOptional.get(), null);
-        }
-        return ResDataUtils.success("success");
+        return collectOptional.map(collect1 -> ResDataUtils.success("success", collect1, null)).orElseGet(() -> ResDataUtils.getData(-1,"error"));
     }
 }

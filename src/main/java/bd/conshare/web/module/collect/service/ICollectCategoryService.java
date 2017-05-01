@@ -76,6 +76,14 @@ public interface ICollectCategoryService {
      */
     Optional<CollectCategory> findByName(String uid, String name);
 
+    /**
+     * 查找或新增一个类目
+     * @param uid  用户id
+     * @param name 类目名称
+     * @return
+     */
+    Optional<CollectCategory> findOrNewByName(String uid, String name);
+
 
     /**
      * 获取用户所有分类

@@ -92,6 +92,12 @@ public class CollectCategoryService extends ServiceBase implements ICollectCateg
     }
 
     @Override
+    public Optional<CollectCategory> findOrNewByName(String uid, String name) {
+        return findByName(uid, name).map(Optional::of).orElseGet(() -> addSave(uid, name));
+
+    }
+
+    @Override
     public List<CollectCategory> getAllCategory(String uid) {
         CollectCategory example = new CollectCategory();
         example.setUid(uid);
