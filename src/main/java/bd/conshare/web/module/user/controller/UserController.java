@@ -3,9 +3,16 @@ package bd.conshare.web.module.user.controller;
 import bd.conshare.core.bean.ResData;
 import bd.conshare.core.common.controller.FrontControllerBase;
 import bd.conshare.core.utils.ResDataUtils;
+import bd.conshare.web.module.collect.domain.CollectCategory;
+import bd.conshare.web.module.collect.service.ICollectCategoryService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.List;
 
 /**
  * Created by Beldon.
@@ -16,8 +23,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping("/user")
 public class UserController extends FrontControllerBase{
 
-    @RequestMapping({"/index","/"})
-    public String index() {
+    @Autowired
+    private ICollectCategoryService collectCategoryService;
+
+    @RequestMapping({"/index", "/"})
+    public String index(Model model) {
+        String uid = getCurrentUid();
+        if (StringUtils.hasText(uid)) {
+            List<CollectCategory> collectCategoryList = collectCategoryService.getAllCategory(uid);
+            model.addAttribute("categorys", collectCategoryList);
+        }
         return getTemplate("user/index");
     }
 
@@ -35,5 +50,10 @@ public class UserController extends FrontControllerBase{
     @ResponseBody
     public ResData doLogin() {
         return ResDataUtils.success("success");
+    }
+
+    @RequestMapping("/reg")
+    public String reg() {
+        return getTemplate("user/reg");
     }
 }

@@ -45,6 +45,27 @@ public class CollectController extends FrontControllerBase{
     @Autowired
     private ICollectService collectService;
 
+
+    @RequestMapping("/list")
+    public String list(@RequestParam(value = "id" ,required = false) String id, Model model) {
+
+        CollectCategory category = null;
+        if (StringUtils.hasText(id)) {
+            Optional<CollectCategory> categoryOptional = collectCategoryService.findById(id);
+            if (categoryOptional.isPresent()) {
+                category = categoryOptional.get();
+            }
+        }
+        if (category == null) {
+            category = new CollectCategory();
+            category.setName("默认列表");
+        }
+        model.addAttribute("category", category);
+        model.addAttribute("id", id);
+        return getTemplate("collect/list");
+    }
+
+
     @RequestMapping("/collect")
     public String collect(Model model) {
         String uid = getCurrentUid();

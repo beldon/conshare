@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8" />
     <meta name="renderer" content="webkit" />
@@ -23,7 +23,7 @@
         <div class="my-header-btn">
             <button class="layui-btn layui-btn-small btn-nav"><i class="layui-icon">&#xe620;</i></button>
         </div>
-        <ul class="layui-nav" lay-filter="side-left">
+        <!--<ul class="layui-nav" lay-filter="side-left">
             <li class="layui-nav-item"><a href="javascript:;" href-url="demo/btn.html"><i class="layui-icon">&#xe621;</i>按钮</a></li>
             <li class="layui-nav-item">
                 <a href="javascript:;"><i class="layui-icon">&#xe621;</i>基础</a>
@@ -32,9 +32,8 @@
                     <dd><a href="javascript:;" href-url="demo/form.html"><i class="layui-icon">&#xe621;</i>表单</a></dd>
                 </dl>
             </li>
-        </ul>
+        </ul>-->
         <ul class="layui-nav my-header-user-nav" lay-filter="side-right">
-            <li class="layui-nav-item"><a href="javascript:;" class="pay" href-url="">支持作者</a></li>
             <li class="layui-nav-item">
                 <a class="name" href="javascript:;"><i class="layui-icon">&#xe629;</i>主题</a>
                 <dl class="layui-nav-child">
@@ -44,7 +43,7 @@
                 </dl>
             </li>
             <li class="layui-nav-item">
-                <a class="name" href="javascript:;"><img src="/templates/theme/default/common/image/code.png" alt="logo" /> Admin </a>
+                <a class="name" href="javascript:;"><img src="/templates/theme/default/common/image/code.png" alt="logo" /> Beldon </a>
                 <dl class="layui-nav-child">
                     <dd><a href="javascript:;" href-url="demo/login.html"><i class="layui-icon">&#xe621;</i>登录页</a></dd>
                     <dd><a href="javascript:;" href-url="demo/map.html"><i class="layui-icon">&#xe621;</i>图表</a></dd>
@@ -61,25 +60,21 @@
                 <li class="layui-nav-item layui-nav-itemed"><!-- 去除 layui-nav-itemed 即可关闭展开 -->
                     <a href="javascript:;"><i class="layui-icon">&#xe620;</i>基础</a>
                     <dl class="layui-nav-child">
-                        <dd class="layui-nav-item"><a href="javascript:;" href-url="demo/btn.html"><i class="layui-icon">&#xe621;</i>按钮</a></dd>
-                        <dd class="layui-nav-item"><a href="javascript:;" href-url="demo/auxiliar.html"><i class="layui-icon">&#xe621;</i>辅助元素</a></dd>
+                        <dd class="layui-nav-item"><a href="javascript:;" href-url="demo/btn.html"><i class="layui-icon">&#xe621;</i>内容</a></dd>
+                        <dd class="layui-nav-item"><a href="javascript:;" href-url="demo/auxiliar.html"><i class="layui-icon">&#xe621;</i>辅助内容</a></dd>
                     </dl>
                 </li>
                 <li class="layui-nav-item layui-nav-itemed">
                     <a href="javascript:;"><i class="layui-icon">&#xe628;</i>收藏夹</a>
                     <dl class="layui-nav-child">
-                        <dd><a href="javascript:;" href-url="demo/login.html"><i class="layui-icon">&#xe621;</i>默认收藏夹</a></dd>
+                        <dd><a href="javascript:;" href-url="/user/collect/list"><i class="layui-icon">&#xe621;</i>默认收藏夹</a></dd>
+                        <dd th:each="category,categoryStat : ${categorys}">
+                            <a href="javascript:;" th:attr="href-url='/user/collect/list?id='+${category.id}"><i class="layui-icon">&#xe621;</i><span th:text="${category.name}">默认收藏夹</span></a>
+                        </dd>
                         <dd><a href="javascript:;" href-url="/user/collect/category/list"><i class="layui-icon">&#xe621;</i>收藏夹管理</a></dd>
                     </dl>
                 </li>
-                <li class="layui-nav-item layui-nav-itemed"><!-- 去除 layui-nav-itemed 即可关闭展开 -->
-                    <a href="javascript:;"><i class="layui-icon">&#xe628;</i>扩展</a>
-                    <dl class="layui-nav-child">
-                        <dd><a href="javascript:;" href-url="demo/login.html"><i class="layui-icon">&#xe621;</i>登录页</a></dd>
-                        <dd><a href="javascript:;" href-url="demo/tips.html"><i class="layui-icon">&#xe621;</i>提示页</a></dd>
-                    </dl>
-                </li>
-                <li class="layui-nav-item"><a target="_blank" href="http://qm.qq.com/cgi-bin/qm/qr?k=jVYSxzwk9dZXNHdZq8owgzwzVjbzAp02"><i class="layui-icon">&#xe61e;</i>加入群下载源码</a></li>
+                <li class="layui-nav-item"><a target="_blank" href="#"><i class="layui-icon">&#xe61e;</i>收藏工具</a></li>
             </ul>
         </div>
     </div>
