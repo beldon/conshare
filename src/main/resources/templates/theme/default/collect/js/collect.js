@@ -21,7 +21,7 @@ function getBase64Image(img) {
     var dataURL = canvas.toDataURL("image/"+ext);
     return dataURL;
 }
-
+console.log("url:"+url);
 if(url) {
     var img = "/user/collect/favicon.ioc?domain="+url;
     var image = new Image();

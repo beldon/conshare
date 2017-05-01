@@ -14,7 +14,9 @@
         <legend>收藏工具</legend>
     </fieldset>
 
-    <a class="btn btn-primary layui-btn" id="collect" href="javascript:(function(){var description;var desString='';var metas=document.getElementsByTagName('meta');for(var x=0,y=metas.length;x%3Cy;x++){if(metas[x].name.toLowerCase()==='description'){description=metas[x];}}if(description){desString='&amp;description='+encodeURIComponent(description.content);}var win=window.open('http://localhost:8080/user/collect/collect?from=webtool&amp;url='+encodeURIComponent(document.URL)+desString+'&amp;title='+encodeURIComponent(document.title)+'&amp;charset='+document.charset,'_blank');win.focus()})();">收藏夹</a>
+    <a class="btn btn-primary layui-btn" th:href="${collectJs}" id="collect" href="javascript:(function(){var description;var desString='';var metas=document.getElementsByTagName('meta');for(var x=0,y=metas.length;x%3Cy;x++){if(metas[x].name.toLowerCase()==='description'){description=metas[x];}}if(description){desString='&amp;description='+encodeURIComponent(description.content);}var win=window.open('http://localhost:8080/user/collect/collect?from=webtool&amp;url='+encodeURIComponent(document.URL)+desString+'&amp;title='+encodeURIComponent(document.title)+'&amp;charset='+document.charset,'_blank');win.focus()})();">收藏夹</a>
+
+    <img style="margin: 0 auto;margin-top: 40px;display: block;" src="/templates/theme/default/common/image/collect.gif" alt="" />
 </div>
 
 
