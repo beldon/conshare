@@ -23,8 +23,8 @@
         <legend>添加收藏</legend>
     </fieldset>
     <form class="layui-form " action="" >
-        <input type="hidden" id="collect-url" />
-        <input type="hidden" id="collect-description" />
+        <input type="hidden" id="collect-url" name="url"/>
+        <input type="hidden" id="collect-description" name="description"/>
 
         <div class="layui-form-item">
             <div class="layui-input-block">
@@ -35,13 +35,13 @@
 
         <div class="layui-form-item layui-form-text">
             <div class="layui-input-block">
-                <textarea placeholder="收藏备注" class="layui-textarea"></textarea>
+                <textarea placeholder="收藏备注" class="layui-textarea" name="remark"></textarea>
             </div>
         </div>
         <div class="layui-form-item" pane="">
             <div class="layui-input-block" style="text-align: center">
                 是否公开
-                <input type="checkbox" checked="" name="open" lay-skin="switch" lay-filter="switchTest" title="开关" />
+                <input type="checkbox"  name="share" value="1" lay-skin="switch" lay-filter="switchTest" title="开关" />
             </div>
         </div>
         <fieldset class="layui-elem-field layui-field-title" style="text-align: center;">
@@ -49,7 +49,7 @@
         </fieldset>
         <div class="layui-form-item">
             <div class="layui-input-block">
-                <select name="interest" lay-filter="aihao">
+                <select name="categoryId" lay-filter="aihao">
                     <option value=""></option>
                     <option th:each="category,categoryStat : ${categorys}" th:value="${category.id}" th:text="${category.name}"></option>
                 </select>
@@ -60,7 +60,7 @@
         </fieldset>
         <div class="layui-form-item">
             <div class="layui-input-block">
-                <input type="text" name="title" autocomplete="off" placeholder="添加收藏夹" class="layui-input" />
+                <input type="text" name="newCategory" autocomplete="off" placeholder="添加收藏夹" class="layui-input" />
             </div>
         </div>
         <div class="layui-form-item">
@@ -89,9 +89,22 @@
         });
 
         //监听提交
-        form.on('submit(demo1)', function(data){
-            layer.alert(JSON.stringify(data.field), {
-                title: '最终的提交信息'
+        form.on('submit(collect)', function(data){
+            var url = "/user/collect/addCollect";
+            console.log(JSON.stringify(data.field));
+            $.ajax({
+                url: url,
+                data: data.field,
+                type: 'post',
+                dataType: 'json',
+                success: function (data) {
+                    console.log(data);
+                    if(data.code===0) {
+                        layer.msg("添加成功！");
+                    }else{
+                        layer.msg(data.msg);
+                    }
+                }
             });
             return false;
         });
