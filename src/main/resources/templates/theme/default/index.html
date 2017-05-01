@@ -1,6 +1,17 @@
 <html>
-<head></head>
+<head>
+    <title>我的标题</title>
+    <meta name="description" content="我的描述" />
+    <link rel="icon" href="https://www.baidu.com/favicon.ico" type="image/x-icon" />
+</head>
 <body>
 <a href="/user/login">Login</a>
+
+<button onclick="collect()">收藏</button>
+
+<a class="btn btn-primary" id="collect" href="javascript:(function(){var description;var desString='';var metas=document.getElementsByTagName('meta');for(var x=0,y=metas.length;x%3Cy;x++){if(metas[x].name.toLowerCase()==='description'){description=metas[x];}}if(description){desString='&amp;description='+encodeURIComponent(description.content);}var win=window.open('http://localhost:8080/user/collect/collect?from=webtool&amp;url='+encodeURIComponent(document.URL)+desString+'&amp;title='+encodeURIComponent(document.title)+'&amp;charset='+document.charset,'_blank');win.focus()})();">收藏夹</a>
+
 </body>
+<script src="/static/plugins/jquery/jquery-3.2.0.min.js" charset="utf-8"></script>
+<script type="text/javascript" src="/static/collect.js"></script>
 </html>

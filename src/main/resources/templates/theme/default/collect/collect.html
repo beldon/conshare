@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <title>添加收藏</title>
+    <meta name="renderer" content="webkit" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <link rel="stylesheet" href="/static/plugins/layui/css/layui.css"  media="all" />
+
+    <style>
+        .layui-input-block{
+            margin-left: 0px !important;
+        }
+        .layui-form-switch{
+            margin-top: 0px !important;
+        }
+    </style>
+</head>
+<body>
+<div class="container" style="width: 550px;margin: 0 auto;">
+    <fieldset class="layui-elem-field layui-field-title" style="text-align: center;">
+        <legend>添加收藏</legend>
+    </fieldset>
+    <form class="layui-form " action="" >
+        <input type="hidden" id="collect-url" />
+        <input type="hidden" id="collect-description" />
+
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAc0lEQVQ4jWNgGGjAiMYPJ6B+JboAC7rAy5cvV6CLiYuLR/z//38FIyMjhiFMhB2JAP///1+B7koMF/Dy8hI0BNklGAZgAxcuXFjByMgYgU2OKAPU1NQYvn37Bg8bLi4uuGEkhQE2MGoAFQzAiEbkKKILAADxTRpEuhAmjwAAAABJRU5ErkJggg==" alt="" />
+                <input type="text" id="collect-title" name="title" autocomplete="off" placeholder="收藏标题" class="layui-input" />
+            </div>
+        </div>
+
+        <div class="layui-form-item layui-form-text">
+            <div class="layui-input-block">
+                <textarea placeholder="收藏备注" class="layui-textarea"></textarea>
+            </div>
+        </div>
+        <div class="layui-form-item" pane="">
+            <div class="layui-input-block" style="text-align: center">
+                是否公开
+                <input type="checkbox" checked="" name="open" lay-skin="switch" lay-filter="switchTest" title="开关" />
+            </div>
+        </div>
+        <fieldset class="layui-elem-field layui-field-title" style="text-align: center;">
+            <legend style="font-size: 15px;">收藏夹</legend>
+        </fieldset>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <select name="interest" lay-filter="aihao">
+                    <option value=""></option>
+                    <option th:each="category,categoryStat : ${categorys}" th:value="${category.id}" th:text="${category.name}"></option>
+                </select>
+            </div>
+        </div>
+        <fieldset class="layui-elem-field layui-field-title" style="text-align: center;">
+            <legend style="font-size: 15px;">或添加收藏夹</legend>
+        </fieldset>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <input type="text" name="title" autocomplete="off" placeholder="添加收藏夹" class="layui-input" />
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <button class="layui-btn layui-btn-small" lay-submit="" lay-filter="collect" style="width: 100%;">收藏</button>
+        </div>
+    </form>
+</div>
+
+
+<script src="/static/plugins/layui/layui.js" charset="utf-8"></script>
+<script src="/static/plugins/jquery/jquery-3.2.0.min.js" charset="utf-8"></script>
+<script src="/templates/theme/default/collect/js/collect.js" charset="utf-8"></script>
+<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+<script>
+    layui.use(['form', 'layedit', 'laydate'], function(){
+        var form = layui.form()
+            ,layer = layui.layer;
+
+
+        //监听指定开关
+        form.on('switch(switchTest)', function(data){
+            layer.msg('开关checked：'+ (this.checked ? 'true' : 'false'), {
+                offset: '6px'
+            });
+            layer.tips('温馨提示：请注意开关状态的文字可以随意定义，而不仅仅是ON|OFF', data.othis)
+        });
+
+        //监听提交
+        form.on('submit(demo1)', function(data){
+            layer.alert(JSON.stringify(data.field), {
+                title: '最终的提交信息'
+            });
+            return false;
+        });
+
+
+    });
+</script>
+
+</body>
+</html>
