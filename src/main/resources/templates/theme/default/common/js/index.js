@@ -82,7 +82,7 @@ layui.use(['layer', 'element', 'util'], function () {
         // 切换相应的ID tab
         element.tabChange(card, id);
         // 提示信息
-        layer.msg(title);
+        // layer.msg(title);
     }
 
     // 根据导航栏text获取lay-id

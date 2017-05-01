@@ -1,0 +1,15 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<input type="hidden" id="pageNo" th:value="${page.pageNo}"/>
+<input type="hidden" id="pageSize" th:value="${page.pageSize}"/>
+<input type="hidden" id="totalPage" th:value="${page.totalPage}"/>
+<input type="hidden" id="totalRecord" th:value="${page.totalRecord}"/>
+<blockquote class="layui-elem-quote layui-quote-nm collect-box" th:each="collect,collectStat : ${page.results}">
+    <img id="favicon" src="" th:src="${collect.favicon}"/>
+    <h3><a href="http://www.baidu.com" target="_blank" th:href="${collect.url}" th:text="${collect.title}">百度一下，你就知道</a></h3>
+    <div class="collect-description" th:text="${collect.description}">这是描述</div>
+    <div class="collect-btn">
+        <i class="layui-icon">&#xe642;</i>
+        <i class="layui-icon">&#xe640;</i>
+    </div>
+</blockquote>
+</html>

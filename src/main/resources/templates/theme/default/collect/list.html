@@ -26,52 +26,41 @@
         .collect-box .collect-btn i{
             cursor: pointer;
         }
+        #collect-page{
+            float: right;
+        }
     </style>
 </head>
 <body class="body">
-
-<fieldset class="layui-elem-field layui-field-title">
+<!--<fieldset class="layui-elem-field layui-field-title">
     <legend>
         <span class="layui-breadcrumb">
-            <a href="javascript:;" th:text="${category.name}">收藏列表</a>
+            <a href="javascript:;" >收藏列表</a>
         </span>
     </legend>
-</fieldset>
+</fieldset>-->
+<input type="hidden" id="catId" th:value="${category.id}" />
 
-<blockquote class="layui-elem-quote layui-quote-nm collect-box">
-    <img id="favicon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAc0lEQVQ4jWNgGGjAiMYPJ6B+JboAC7rAy5cvV6CLiYuLR/z//38FIyMjhiFMhB2JAP///1+B7koMF/Dy8hI0BNklGAZgAxcuXFjByMgYgU2OKAPU1NQYvn37Bg8bLi4uuGEkhQE2MGoAFQzAiEbkKKILAADxTRpEuhAmjwAAAABJRU5ErkJggg==" alt="" />
-    <h3><a href="http://www.baidu.com" target="_blank">开源中国 - 找到您想要的开源项目，分享和交流</a></h3>
-    <div class="collect-description">
-        这是描述
-    </div>
-    <div class="collect-btn">
-        <i class="layui-icon">&#xe642;</i>
-        <i class="layui-icon">&#xe640;</i>
-    </div>
-</blockquote>
+<div id="collect-content">
+    <blockquote class="layui-elem-quote layui-quote-nm collect-box">
+        <img id="favicon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAc0lEQVQ4jWNgGGjAiMYPJ6B+JboAC7rAy5cvV6CLiYuLR/z//38FIyMjhiFMhB2JAP///1+B7koMF/Dy8hI0BNklGAZgAxcuXFjByMgYgU2OKAPU1NQYvn37Bg8bLi4uuGEkhQE2MGoAFQzAiEbkKKILAADxTRpEuhAmjwAAAABJRU5ErkJggg==" alt="" />
+        <h3><a href="http://www.baidu.com" target="_blank">开源中国 - 找到您想要的开源项目，分享和交流</a></h3>
+        <div class="collect-description">
+            这是描述
+        </div>
+        <div class="collect-btn">
+            <i class="layui-icon">&#xe642;</i>
+            <i class="layui-icon">&#xe640;</i>
+        </div>
+    </blockquote>
+</div>
+
+<div id="collect-page"></div>
 
 <script type="text/javascript" src="/static/plugins/layui/layui.js"></script>
 <!-- jQuery -->
 <script type="text/javascript" charset="utf8" src="/static/plugins/jquery/jquery-3.2.0.min.js"></script>
-<script type="text/javascript" src="/templates/theme/default/common/js/table-tool.js"></script>
-<script type="text/javascript">
-    layui.use(['element','layer'], function(){
-        var $ = layui.jquery,element = layui.element,layer = layui.layer;
-        // 例:获取ids
-        $(document).on('click','#btn-delete-all', function(){
-            // getIds(table对象,获取input为id的属性)
-            var list = getIds($('#dateTable'),'data-id');
-            if(list == null || list == ''){
-                layer.msg('未选择');
-            }else{
-                layer.msg(list);
-            }
-        });
+<script type="text/javascript" src="/templates/theme/default/collect/js/list.js"></script>
 
-        // you code ...
-
-
-    });
-</script>
 </body>
 </html>

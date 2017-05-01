@@ -1,5 +1,8 @@
 package bd.conshare.web.module.collect.service.impl;
 
+import bd.conshare.core.bean.Page;
+import bd.conshare.core.bean.Query;
+import bd.conshare.core.bean.QueryOrder;
 import bd.conshare.core.common.service.ServiceBase;
 import bd.conshare.web.module.collect.dao.ICollectDao;
 import bd.conshare.web.module.collect.domain.Collect;
@@ -7,6 +10,7 @@ import bd.conshare.web.module.collect.service.ICollectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import org.springframework.util.StringUtils;
 
 import java.util.Date;
 import java.util.Optional;
@@ -30,6 +34,20 @@ public class CollectService extends ServiceBase implements ICollectService {
         collect.setCreTime(new Date());
         collectDao.insertSelective(collect);
         return Optional.of(collect);
+    }
+
+    @Override
+    public Page<Collect> findByPage(Page<Collect> page, String uid, String catId) {
+        Assert.notNull(page, "page can not be null");
+        Collect example = new Collect();
+        if (StringUtils.hasText(uid)) {
+            example.setUid(uid);
+        }
+        if (StringUtils.hasText(catId)) {
+            example.setCategoryId(catId);
+        }
+        collectDao.query(page, Query.create().domain(example).order(QueryOrder.desc("cre_time")));
+        return page;
     }
 
 }

@@ -1,5 +1,6 @@
 package bd.conshare.web.module.collect.controller;
 
+import bd.conshare.core.bean.Page;
 import bd.conshare.core.bean.ResData;
 import bd.conshare.core.common.controller.FrontControllerBase;
 import bd.conshare.core.utils.ResDataUtils;
@@ -63,6 +64,17 @@ public class CollectController extends FrontControllerBase{
         model.addAttribute("category", category);
         model.addAttribute("id", id);
         return getTemplate("collect/list");
+    }
+
+    @RequestMapping("/content")
+    public String content(Page page,@RequestParam(value = "catId" ,required = false) String catId, Model model) {
+        page.setPageSize(8);
+        String uid = getCurrentUid();
+        if (StringUtils.hasText(uid)) {
+            page = collectService.findByPage(page, uid,catId);
+        }
+        model.addAttribute("page", page);
+        return getTemplate("collect/content");
     }
 
 
