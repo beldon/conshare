@@ -52,3 +52,21 @@ $("#collect").attr('src', t1);
     var win = window.open("http://localhost/collect?from=webtool&amp;url=" + encodeURIComponent(document.URL) + desString + "&amp;title=" + encodeURIComponent(document.title) + "&amp;charset=" + document.charset, "_blank");
     win.focus();
 })();*/
+
+function getBase64Image(img) {
+    var canvas = document.createElement("canvas");
+    canvas.width = img.width;
+    canvas.height = img.height;
+    var ctx = canvas.getContext("2d");
+    ctx.drawImage(img, 0, 0, img.width, img.height);
+    var ext = img.src.substring(img.src.lastIndexOf(".")+1).toLowerCase();
+    var dataURL = canvas.toDataURL("image/"+ext);
+    return dataURL;
+}
+var img = "http://localhost:8080/user/collect/favicon.ioc?domain=www.baidu.com";
+var image = new Image();
+image.src = img;
+image.onload = function () {
+    var base64 = getBase64Image(image);
+    console.log(base64);
+};

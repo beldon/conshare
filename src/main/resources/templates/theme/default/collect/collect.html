@@ -25,10 +25,10 @@
     <form class="layui-form " action="" >
         <input type="hidden" id="collect-url" name="url"/>
         <input type="hidden" id="collect-description" name="description"/>
-
+        <input type="hidden" id="collect-favicon" name="favicon" value="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAc0lEQVQ4jWNgGGjAiMYPJ6B+JboAC7rAy5cvV6CLiYuLR/z//38FIyMjhiFMhB2JAP///1+B7koMF/Dy8hI0BNklGAZgAxcuXFjByMgYgU2OKAPU1NQYvn37Bg8bLi4uuGEkhQE2MGoAFQzAiEbkKKILAADxTRpEuhAmjwAAAABJRU5ErkJggg==" />
         <div class="layui-form-item">
             <div class="layui-input-block">
-                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAc0lEQVQ4jWNgGGjAiMYPJ6B+JboAC7rAy5cvV6CLiYuLR/z//38FIyMjhiFMhB2JAP///1+B7koMF/Dy8hI0BNklGAZgAxcuXFjByMgYgU2OKAPU1NQYvn37Bg8bLi4uuGEkhQE2MGoAFQzAiEbkKKILAADxTRpEuhAmjwAAAABJRU5ErkJggg==" alt="" />
+                <img id="favicon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAc0lEQVQ4jWNgGGjAiMYPJ6B+JboAC7rAy5cvV6CLiYuLR/z//38FIyMjhiFMhB2JAP///1+B7koMF/Dy8hI0BNklGAZgAxcuXFjByMgYgU2OKAPU1NQYvn37Bg8bLi4uuGEkhQE2MGoAFQzAiEbkKKILAADxTRpEuhAmjwAAAABJRU5ErkJggg==" alt="" />
                 <input type="text" id="collect-title" name="title" autocomplete="off" placeholder="收藏标题" class="layui-input" />
             </div>
         </div>
@@ -73,45 +73,6 @@
 <script src="/static/plugins/layui/layui.js" charset="utf-8"></script>
 <script src="/static/plugins/jquery/jquery-3.2.0.min.js" charset="utf-8"></script>
 <script src="/templates/theme/default/collect/js/collect.js" charset="utf-8"></script>
-<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
-<script>
-    layui.use(['form', 'layedit', 'laydate'], function(){
-        var form = layui.form()
-            ,layer = layui.layer;
-
-
-        //监听指定开关
-        form.on('switch(switchTest)', function(data){
-            layer.msg('开关checked：'+ (this.checked ? 'true' : 'false'), {
-                offset: '6px'
-            });
-            layer.tips('温馨提示：请注意开关状态的文字可以随意定义，而不仅仅是ON|OFF', data.othis)
-        });
-
-        //监听提交
-        form.on('submit(collect)', function(data){
-            var url = "/user/collect/addCollect";
-            console.log(JSON.stringify(data.field));
-            $.ajax({
-                url: url,
-                data: data.field,
-                type: 'post',
-                dataType: 'json',
-                success: function (data) {
-                    console.log(data);
-                    if(data.code===0) {
-                        layer.msg("添加成功！");
-                    }else{
-                        layer.msg(data.msg);
-                    }
-                }
-            });
-            return false;
-        });
-
-
-    });
-</script>
 
 </body>
 </html>
