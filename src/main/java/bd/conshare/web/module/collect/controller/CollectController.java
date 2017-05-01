@@ -88,6 +88,11 @@ public class CollectController extends FrontControllerBase{
         return getTemplate("collect/collect");
     }
 
+    @RequestMapping("/tools")
+    public String tools() {
+        return getTemplate("collect/tools");
+    }
+
 
     @RequestMapping("/addCollect")
     @ResponseBody

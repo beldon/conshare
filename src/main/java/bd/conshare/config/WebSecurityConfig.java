@@ -34,9 +34,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.headers().frameOptions().sameOrigin().and()
                 .authorizeRequests()
-                .antMatchers("/sys/**")
+                .antMatchers("/user/**")
                 .authenticated()
-                .antMatchers("/**", "/sys/do_login.json")
+                .antMatchers("/**", "/user/reg","/user/doReg")
                 .permitAll()
                 .and()
                 .formLogin()
@@ -49,6 +49,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .failureHandler(new UserAuthenticationFailureHandler())
                 .permitAll()
                 .and().csrf().disable();
+
+        http.rememberMe().key("rememberMe").alwaysRemember(true);
 
     }
 

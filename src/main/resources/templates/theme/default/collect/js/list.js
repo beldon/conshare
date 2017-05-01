@@ -1,5 +1,9 @@
 $(function () {
     loadData();
+
+    $("#refresh").click(function () {
+        loadData();
+    });
 });
 
 
