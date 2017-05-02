@@ -16,16 +16,16 @@
     <header class="layui-elip">用户注册</header>
     <form class="layui-form">
         <div class="layui-input-inline">
-            <input type="text" name="account" required="required"  lay-verify="required" placeholder="用户名" autocomplete="off" class="layui-input" />
+            <input type="text" name="account" required="required" id="account"  lay-verify="required" placeholder="用户名" autocomplete="off" class="layui-input" />
         </div>
         <div class="layui-input-inline">
-            <input type="password" name="password" required="required"  lay-verify="required" placeholder="密码" autocomplete="off" class="layui-input" />
+            <input type="password" name="password" id="password" required="required"  lay-verify="required" placeholder="密码" autocomplete="off" class="layui-input" />
         </div>
         <div class="layui-input-inline">
-            <input type="password" required="required"  lay-verify="required" placeholder="重复密码" autocomplete="off" class="layui-input" />
+            <input type="password" required="required" id="rePassword" lay-verify="required" placeholder="重复密码" autocomplete="off" class="layui-input" />
         </div>
         <div class="layui-input-inline login-btn">
-            <button type="submit" class="layui-btn">注册</button>
+            <button lay-submit="lay-submit" class="layui-btn" lay-filter="reg">注册</button>
         </div>
         <hr/>
         <p><a href="/user/login" class="fl">已有账号？立即登录</a><a href="javascript:;" class="fr">忘记密码？</a></p>
@@ -38,6 +38,51 @@
     layui.use(['form'], function () {
         var form = layui.form(), $ = layui.jquery;
 
+        //监听提交
+        layui.form().on('submit(reg)', function(data){
+            var account = $('#account').val();
+            var password = $('#password').val();
+            var rePassword = $('#rePassword').val();
+
+            if(password !== rePassword) {
+                layer.msg("两次密码不相同，请重新输入");
+                return false;
+            }
+
+            var url = 'doReg';
+            $.ajax({
+                url: url,
+                data: data.field,
+                type: 'post',
+                dataType: 'json',
+                success: function (data) {
+                    console.log(data);
+                    if(data.code===0) {
+                        layer.msg("注册成功，正在为你自登录");
+                        var loginUrl = 'doLogin.json';
+                        $.ajax({
+                            url: loginUrl,
+                            data: {account:account,password:password},
+                            type: 'post',
+                            dataType: 'json',
+                            success: function (data) {
+                                console.log(data);
+                                if(data.code===0) {
+                                    setTimeout("window.location.href='/user/index'", 1000);
+                                }else{
+                                    layer.msg(data.msg);
+                                }
+                            }
+                        });
+
+                    }else{
+                        layer.msg(data.msg);
+                    }
+                }
+            });
+
+            return false;
+        });
 
     });
 </script>

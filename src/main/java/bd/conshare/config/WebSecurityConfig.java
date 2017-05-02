@@ -34,21 +34,23 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.headers().frameOptions().sameOrigin().and()
                 .authorizeRequests()
-                .antMatchers("/user/**")
-                .authenticated()
-                .antMatchers("/**", "/user/reg","/user/doReg")
-                .permitAll()
-                .and()
+                    .antMatchers( "/user/reg","/user/doReg").permitAll()
+                    .antMatchers("/user/**").authenticated()
+                    .and()
                 .formLogin()
-                .loginPage("/user/login")
-                .loginProcessingUrl("/user/doLogin.json")
-                .successForwardUrl("/user/")
-                .usernameParameter("account")
-                .passwordParameter("password")
-                .successHandler(new UserAuthenticationSuccessHandler())
-                .failureHandler(new UserAuthenticationFailureHandler())
-                .permitAll()
-                .and().csrf().disable();
+                    .loginPage("/user/login")
+                    .loginProcessingUrl("/user/doLogin.json")
+                    .successForwardUrl("/user/")
+                    .usernameParameter("account")
+                    .passwordParameter("password")
+                    .successHandler(new UserAuthenticationSuccessHandler())
+                    .failureHandler(new UserAuthenticationFailureHandler())
+                    .permitAll()
+                    .and()
+                .logout()
+                    .logoutUrl("/user/logout").permitAll()
+                    .and()
+                .csrf().disable();
 
         http.rememberMe().key("rememberMe").alwaysRemember(true);
 

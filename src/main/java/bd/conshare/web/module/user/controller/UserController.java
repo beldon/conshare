@@ -5,14 +5,17 @@ import bd.conshare.core.common.controller.FrontControllerBase;
 import bd.conshare.core.utils.ResDataUtils;
 import bd.conshare.web.module.collect.domain.CollectCategory;
 import bd.conshare.web.module.collect.service.ICollectCategoryService;
+import bd.conshare.web.module.user.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by Beldon.
@@ -21,7 +24,7 @@ import java.util.List;
  */
 @Controller
 @RequestMapping("/user")
-public class UserController extends FrontControllerBase{
+public class UserController extends FrontControllerBase {
 
     @Autowired
     private ICollectCategoryService collectCategoryService;
@@ -55,5 +58,21 @@ public class UserController extends FrontControllerBase{
     @RequestMapping("/reg")
     public String reg() {
         return getTemplate("user/reg");
+    }
+
+
+    @RequestMapping("/doReg")
+    @ResponseBody
+    public ResData doReg(@RequestParam("account") String account, @RequestParam("password") String password) {
+        if (StringUtils.isEmpty(account) || StringUtils.isEmpty(password)) {
+            return ResDataUtils.getData(-1, "用户名或密码不能为空");
+        }
+
+        if (userService.checkAccountExit(account)) {
+            return ResDataUtils.getData(-1, "该账号已存在");
+        }
+
+        Optional<User> userOptional = userService.register(account, password);
+        return userOptional.map(user -> ResDataUtils.success("success", user, null)).orElseGet(() -> ResDataUtils.getData(-1, "error"));
     }
 }

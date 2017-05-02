@@ -1,5 +1,6 @@
 package bd.conshare.core.common.controller;
 
+import bd.conshare.web.module.user.service.IUserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,9 @@ public abstract class ControllerBase {
 
     @Autowired
     protected ApplicationContext applicationContext;
+
+    @Autowired
+    protected IUserService userService;
 
     /**
      * 获取模板路径，控制器不同，模板路径不同，如前台的有前台的路径，后台有后台的路径
