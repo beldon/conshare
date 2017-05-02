@@ -7,6 +7,9 @@ import bd.conshare.web.module.collect.domain.CollectCategory;
 import bd.conshare.web.module.collect.service.ICollectCategoryService;
 import bd.conshare.web.module.user.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -46,6 +49,10 @@ public class UserController extends FrontControllerBase {
 
     @RequestMapping("/login")
     public String login() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (!(auth instanceof AnonymousAuthenticationToken)) {
+            return redirectTo("/user/index");
+        }
         return getTemplate("user/login");
     }
 

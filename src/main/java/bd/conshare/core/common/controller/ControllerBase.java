@@ -1,5 +1,6 @@
 package bd.conshare.core.common.controller;
 
+import bd.conshare.web.module.user.domain.User;
 import bd.conshare.web.module.user.service.IUserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -8,6 +9,9 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
+
+import java.util.Optional;
 
 
 /**
@@ -80,7 +84,14 @@ public abstract class ControllerBase {
      * @return
      */
     public String getCurrentUid() {
-        return "beldon";
+        String account = getCurrentUserAccount();
+        if (StringUtils.hasText(account)) {
+            Optional<User> userOptional = userService.findByAccount(account);
+            if (userOptional.isPresent()) {
+                return userOptional.get().getUid();
+            }
+        }
+        return "";
     }
 
     /**
