@@ -44,7 +44,7 @@ DROP TABLE IF EXISTS `t_user`;
 CREATE TABLE `t_user` (
   `uid` varchar(32) NOT NULL COMMENT '用户id',
   `account` varchar(100) NOT NULL COMMENT '用户账号',
-  `password` varchar(64) NOT NULL COMMENT '登录密码',
+  `password` varchar(100) NOT NULL COMMENT '登录密码',
   `nickname` varchar(100) DEFAULT NULL COMMENT '用户昵称',
   `avatar` varchar(500) DEFAULT NULL COMMENT '头像',
   `status` int(1) DEFAULT NULL COMMENT '用户状态，0:正常，1:冻结，2:删除',

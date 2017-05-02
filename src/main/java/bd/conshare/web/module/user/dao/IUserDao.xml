@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bd.conshare.web.module.user.dao.IUserDao">
+    <resultMap id="BaseResultMap" type="bd.conshare.web.module.user.domain.User">
+        <id column="uid" property="uid" jdbcType="VARCHAR" /> <!--用户id-->
+        <result column="account" property="account" jdbcType="VARCHAR" /> <!--用户账号-->
+        <result column="password" property="password" jdbcType="VARCHAR" /> <!--登录密码-->
+        <result column="nickname" property="nickname" jdbcType="VARCHAR" /> <!--用户昵称-->
+        <result column="avatar" property="avatar" jdbcType="VARCHAR" /> <!--头像-->
+        <result column="status" property="status" jdbcType="BIGINT" /> <!--用户状态，0:正常，1:冻结，2:删除-->
+        <result column="credits" property="credits" jdbcType="BIGINT" /> <!--用户积分-->
+        <result column="reg_time" property="regTime" jdbcType="TIMESTAMP" /> <!--用户创建时间-->
+        <result column="cre_uid" property="creUid" jdbcType="VARCHAR" /> <!--创建用户id-->
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" /> <!--用户信息更新时间-->
+        <result column="update_uid" property="updateUid" jdbcType="VARCHAR" /> <!--更新的用户id-->
+        <result column="enable" property="enable" jdbcType="BIT" /> <!--是否可用，1-true，0-false-->
+        <result column="admin" property="admin" jdbcType="BIT" /> <!--是否为管理员，1-true，0-false-->
+
+        <collection property="profile" column="uid" select="bd.conshare.web.module.user.dao.IUserProfileDao.selectByPrimaryKey" />
+    </resultMap>
+    <!-- 除了id以外全部属性 -->
+    <sql id="columns_no_id">
+        account,<!--用户账号-->
+        password,<!--登录密码-->
+        nickname,<!--用户昵称-->
+        avatar,<!--头像-->
+        status,<!--用户状态，0:正常，1:冻结，2:删除-->
+        credits,<!--用户积分-->
+        reg_time,<!--用户创建时间-->
+        cre_uid,<!--创建用户id-->
+        update_time,<!--用户信息更新时间-->
+        update_uid,<!--更新的用户id-->
+        enable,<!--是否可用，1-true，0-false-->
+        admin<!--是否为管理员，1-true，0-false-->
+    </sql>
+
+    <!-- 包括id在内全部属性 -->
+    <sql id="columns_all">
+        uid,<include refid="columns_no_id"/>
+    </sql>
+
+    <sql id="properties_no_id">
+        #{account},<!--用户账号-->
+        #{password},<!--登录密码-->
+        #{nickname},<!--用户昵称-->
+        #{avatar},<!--头像-->
+        #{status},<!--用户状态，0:正常，1:冻结，2:删除-->
+        #{credits},<!--用户积分-->
+        #{regTime},<!--用户创建时间-->
+        #{creUid},<!--创建用户id-->
+        #{updateTime},<!--用户信息更新时间-->
+        #{updateUid},<!--更新的用户id-->
+        #{enable},<!--是否可用，1-true，0-false-->
+        #{admin}<!--是否为管理员，1-true，0-false-->
+    </sql>
+    <!-- 包括id在内全部属性 -->
+    <sql id="properties_all">
+        #{uid},<include refid="properties_no_id"/>
+    </sql>
+
+    <!--普通插入-->
+    <insert id="insert" parameterType="bd.conshare.web.module.user.domain.User">
+        <selectKey keyProperty="uid" resultType="String" order="BEFORE">
+            select  replace(uuid(),'-','')
+        </selectKey>
+        insert into t_user (<include refid="columns_all"/>)
+        values (<include refid="properties_all" />)
+    </insert>
+
+    <!--非空插入-->
+    <insert id="insertSelective" parameterType="bd.conshare.web.module.user.domain.User" >
+        <selectKey keyProperty="uid" resultType="String" order="BEFORE">
+            select  replace(uuid(),'-','')
+        </selectKey>
+        insert into t_user
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="uid != null" >
+                uid,<!--用户id-->
+             </if>
+            <if test="account != null" >
+                account,<!--用户账号-->
+             </if>
+            <if test="password != null" >
+                password,<!--登录密码-->
+             </if>
+            <if test="nickname != null" >
+                nickname,<!--用户昵称-->
+             </if>
+            <if test="avatar != null" >
+                avatar,<!--头像-->
+             </if>
+            <if test="status != null" >
+                status,<!--用户状态，0:正常，1:冻结，2:删除-->
+             </if>
+            <if test="credits != null" >
+                credits,<!--用户积分-->
+             </if>
+            <if test="regTime != null" >
+                reg_time,<!--用户创建时间-->
+             </if>
+            <if test="creUid != null" >
+                cre_uid,<!--创建用户id-->
+             </if>
+            <if test="updateTime != null" >
+                update_time,<!--用户信息更新时间-->
+             </if>
+            <if test="updateUid != null" >
+                update_uid,<!--更新的用户id-->
+             </if>
+            <if test="enable != null" >
+                enable,<!--是否可用，1-true，0-false-->
+             </if>
+            <if test="admin != null" >
+                admin<!--是否为管理员，1-true，0-false-->
+             </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="uid != null" >
+                #{uid},<!--用户id-->
+            </if>
+            <if test="account != null" >
+                #{account},<!--用户账号-->
+            </if>
+            <if test="password != null" >
+                #{password},<!--登录密码-->
+            </if>
+            <if test="nickname != null" >
+                #{nickname},<!--用户昵称-->
+            </if>
+            <if test="avatar != null" >
+                #{avatar},<!--头像-->
+            </if>
+            <if test="status != null" >
+                #{status},<!--用户状态，0:正常，1:冻结，2:删除-->
+            </if>
+            <if test="credits != null" >
+                #{credits},<!--用户积分-->
+            </if>
+            <if test="regTime != null" >
+                #{regTime},<!--用户创建时间-->
+            </if>
+            <if test="creUid != null" >
+                #{creUid},<!--创建用户id-->
+            </if>
+            <if test="updateTime != null" >
+                #{updateTime},<!--用户信息更新时间-->
+            </if>
+            <if test="updateUid != null" >
+                #{updateUid},<!--更新的用户id-->
+            </if>
+            <if test="enable != null" >
+                #{enable},<!--是否可用，1-true，0-false-->
+            </if>
+            <if test="admin != null" >
+                #{admin}<!--是否为管理员，1-true，0-false-->
+            </if>
+        </trim>
+    </insert>
+
+    <!--更新所有-->
+    <update id="updateByPrimaryKey" parameterType="bd.conshare.web.module.user.domain.User" >
+        update t_user
+        <set >
+            account= #{account},<!--用户账号-->
+            password= #{password},<!--登录密码-->
+            nickname= #{nickname},<!--用户昵称-->
+            avatar= #{avatar},<!--头像-->
+            status= #{status},<!--用户状态，0:正常，1:冻结，2:删除-->
+            credits= #{credits},<!--用户积分-->
+            reg_time= #{regTime},<!--用户创建时间-->
+            cre_uid= #{creUid},<!--创建用户id-->
+            update_time= #{updateTime},<!--用户信息更新时间-->
+            update_uid= #{updateUid},<!--更新的用户id-->
+            enable= #{enable},<!--是否可用，1-true，0-false-->
+            admin= #{admin}<!--是否为管理员，1-true，0-false-->
+        </set>
+        where uid = #{uid}
+    </update>
+    <!--更新非空-->
+    <update id="updateByPrimaryKeySelective" parameterType="bd.conshare.web.module.user.domain.User" >
+        update t_user
+        <set >
+             <if test="account != null" >
+                account= #{account},<!--用户账号-->
+             </if>
+             <if test="password != null" >
+                password= #{password},<!--登录密码-->
+             </if>
+             <if test="nickname != null" >
+                nickname= #{nickname},<!--用户昵称-->
+             </if>
+             <if test="avatar != null" >
+                avatar= #{avatar},<!--头像-->
+             </if>
+             <if test="status != null" >
+                status= #{status},<!--用户状态，0:正常，1:冻结，2:删除-->
+             </if>
+             <if test="credits != null" >
+                credits= #{credits},<!--用户积分-->
+             </if>
+             <if test="regTime != null" >
+                reg_time= #{regTime},<!--用户创建时间-->
+             </if>
+             <if test="creUid != null" >
+                cre_uid= #{creUid},<!--创建用户id-->
+             </if>
+             <if test="updateTime != null" >
+                update_time= #{updateTime},<!--用户信息更新时间-->
+             </if>
+             <if test="updateUid != null" >
+                update_uid= #{updateUid},<!--更新的用户id-->
+             </if>
+             <if test="enable != null" >
+                enable= #{enable},<!--是否可用，1-true，0-false-->
+             </if>
+             <if test="admin != null" >
+                admin= #{admin}<!--是否为管理员，1-true，0-false-->
+             </if>
+        </set>
+        where uid = #{uid}
+    </update>
+
+    <select id="query" resultMap="BaseResultMap">
+        select * from t_user
+        <where>
+            <if test="query != null">
+                <trim suffixOverrides="AND">
+                    <if test="query.domain != null">
+                        <trim suffixOverrides="AND">
+                            <if test="query.domain.account != null">account= #{query.domain.account} AND </if><!--用户账号-->
+                            <if test="query.domain.password != null">password= #{query.domain.password} AND </if><!--登录密码-->
+                            <if test="query.domain.nickname != null">nickname= #{query.domain.nickname} AND </if><!--用户昵称-->
+                            <if test="query.domain.avatar != null">avatar= #{query.domain.avatar} AND </if><!--头像-->
+                            <if test="query.domain.status != null">status= #{query.domain.status} AND </if><!--用户状态，0:正常，1:冻结，2:删除-->
+                            <if test="query.domain.credits != null">credits= #{query.domain.credits} AND </if><!--用户积分-->
+                            <if test="query.domain.regTime != null">reg_time= #{query.domain.regTime} AND </if><!--用户创建时间-->
+                            <if test="query.domain.creUid != null">cre_uid= #{query.domain.creUid} AND </if><!--创建用户id-->
+                            <if test="query.domain.updateTime != null">update_time= #{query.domain.updateTime} AND </if><!--用户信息更新时间-->
+                            <if test="query.domain.updateUid != null">update_uid= #{query.domain.updateUid} AND </if><!--更新的用户id-->
+                            <if test="query.domain.enable != null">enable= #{query.domain.enable} AND </if><!--是否可用，1-true，0-false-->
+                            <if test="query.domain.admin != null">admin= #{query.domain.admin}</if><!--是否为管理员，1-true，0-false-->
+                        </trim>
+                        AND
+                    </if>
+
+                    <if test="query.compares != null">
+                        <trim suffixOverrides="AND">
+                            <foreach collection="query.compares" item="compare" separator="AND">
+                                `${compare.column}`
+                                <choose>
+                                    <when test="compare.type == 'lt'">&lt;</when>
+                                    <when test="compare.type == 'lte'">&lt;=</when>
+                                    <when test="compare.type == 'gt'">&gt;</when>
+                                    <when test="compare.type == 'gte'">&gt;=</when>
+                                </choose>
+                                '${compare.value}'
+                            </foreach>
+                        </trim>
+                        AND
+                    </if>
+
+                    <if test="query.andLikes != null">
+                        <trim suffixOverrides="AND">
+                            <foreach collection="query.andLikes" item="like" separator="AND">
+                                `${like.column}` like
+                                <choose>
+                                    <when test="like.leftLike and like.rightLike">concat('%','${like.keyword}','%')
+                                    </when>
+                                    <when test="like.leftLike">concat('%','${like.keyword}','')</when>
+                                    <when test="like.rightLike">concat('','${like.keyword}','%')</when>
+                                </choose>
+                            </foreach>
+                        </trim>
+                        AND
+                    </if>
+                    <if test="query.orLikes != null">
+                        <trim suffixOverrides="AND" prefix="(" suffix=")">
+                            <foreach collection="query.orLikes" item="like" separator="OR">
+                                `${like.column}` like
+                                <choose>
+                                    <when test="like.leftLike and like.rightLike">concat('%','${like.keyword}','%')
+                                    </when>
+                                    <when test="like.leftLike">concat('%','${like.keyword}','')</when>
+                                    <when test="like.rightLike">concat('','${like.keyword}','%')</when>
+                                </choose>
+                            </foreach>
+                        </trim>
+                    </if>
+                </trim>
+
+                <if test="query.orders != null">
+                    order by
+                    <foreach collection="query.orders" item="order" separator=",">
+                        `${order.column}` ${order.type}
+                    </foreach>
+                </if>
+
+            </if>
+        </where>
+    </select>
+
+</mapper>

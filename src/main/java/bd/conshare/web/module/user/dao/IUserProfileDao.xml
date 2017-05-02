@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bd.conshare.web.module.user.dao.IUserProfileDao">
+    <resultMap id="BaseResultMap" type="bd.conshare.web.module.user.domain.UserProfile">
+        <id column="uid" property="uid" jdbcType="VARCHAR" /> <!--用户id-->
+        <result column="real_name" property="realName" jdbcType="VARCHAR" /> <!--用户真实姓名-->
+        <result column="gender" property="gender" jdbcType="BIGINT" /> <!--0:未知，1:男，2:女-->
+        <result column="birthday" property="birthday" jdbcType="TIMESTAMP" /> <!--用户生日-->
+        <result column="mobile" property="mobile" jdbcType="VARCHAR" /> <!--用户手机号码-->
+        <result column="qq" property="qq" jdbcType="VARCHAR" /> <!---->
+        <result column="wechat" property="wechat" jdbcType="VARCHAR" /> <!---->
+        <result column="interest" property="interest" jdbcType="VARCHAR" /> <!--兴趣-->
+        <result column="bio" property="bio" jdbcType="VARCHAR" /> <!--个人简介-->
+    </resultMap>
+    <!-- 除了id以外全部属性 -->
+    <sql id="columns_no_id">
+        real_name,<!--用户真实姓名-->
+        gender,<!--0:未知，1:男，2:女-->
+        birthday,<!--用户生日-->
+        mobile,<!--用户手机号码-->
+        qq,<!---->
+        wechat,<!---->
+        interest,<!--兴趣-->
+        bio<!--个人简介-->
+    </sql>
+
+    <!-- 包括id在内全部属性 -->
+    <sql id="columns_all">
+        uid,<include refid="columns_no_id"/>
+    </sql>
+
+    <sql id="properties_no_id">
+        #{realName},<!--用户真实姓名-->
+        #{gender},<!--0:未知，1:男，2:女-->
+        #{birthday},<!--用户生日-->
+        #{mobile},<!--用户手机号码-->
+        #{qq},<!---->
+        #{wechat},<!---->
+        #{interest},<!--兴趣-->
+        #{bio}<!--个人简介-->
+    </sql>
+    <!-- 包括id在内全部属性 -->
+    <sql id="properties_all">
+        #{uid},<include refid="properties_no_id"/>
+    </sql>
+
+    <!--普通插入-->
+    <insert id="insert" parameterType="bd.conshare.web.module.user.domain.UserProfile">
+        <selectKey keyProperty="uid" resultType="String" order="BEFORE">
+            select  replace(uuid(),'-','')
+        </selectKey>
+        insert into t_user_profile (<include refid="columns_all"/>)
+        values (<include refid="properties_all" />)
+    </insert>
+
+    <!--非空插入-->
+    <insert id="insertSelective" parameterType="bd.conshare.web.module.user.domain.UserProfile" >
+        insert into t_user_profile
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="uid != null" >
+                uid,<!--用户id-->
+             </if>
+            <if test="realName != null" >
+                real_name,<!--用户真实姓名-->
+             </if>
+            <if test="gender != null" >
+                gender,<!--0:未知，1:男，2:女-->
+             </if>
+            <if test="birthday != null" >
+                birthday,<!--用户生日-->
+             </if>
+            <if test="mobile != null" >
+                mobile,<!--用户手机号码-->
+             </if>
+            <if test="qq != null" >
+                qq,<!---->
+             </if>
+            <if test="wechat != null" >
+                wechat,<!---->
+             </if>
+            <if test="interest != null" >
+                interest,<!--兴趣-->
+             </if>
+            <if test="bio != null" >
+                bio<!--个人简介-->
+             </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="uid != null" >
+                #{uid},<!--用户id-->
+            </if>
+            <if test="realName != null" >
+                #{realName},<!--用户真实姓名-->
+            </if>
+            <if test="gender != null" >
+                #{gender},<!--0:未知，1:男，2:女-->
+            </if>
+            <if test="birthday != null" >
+                #{birthday},<!--用户生日-->
+            </if>
+            <if test="mobile != null" >
+                #{mobile},<!--用户手机号码-->
+            </if>
+            <if test="qq != null" >
+                #{qq},<!---->
+            </if>
+            <if test="wechat != null" >
+                #{wechat},<!---->
+            </if>
+            <if test="interest != null" >
+                #{interest},<!--兴趣-->
+            </if>
+            <if test="bio != null" >
+                #{bio}<!--个人简介-->
+            </if>
+        </trim>
+    </insert>
+
+    <!--更新所有-->
+    <update id="updateByPrimaryKey" parameterType="bd.conshare.web.module.user.domain.UserProfile" >
+        update t_user_profile
+        <set >
+            real_name= #{realName},<!--用户真实姓名-->
+            gender= #{gender},<!--0:未知，1:男，2:女-->
+            birthday= #{birthday},<!--用户生日-->
+            mobile= #{mobile},<!--用户手机号码-->
+            qq= #{qq},<!---->
+            wechat= #{wechat},<!---->
+            interest= #{interest},<!--兴趣-->
+            bio= #{bio}<!--个人简介-->
+        </set>
+        where uid = #{uid}
+    </update>
+    <!--更新非空-->
+    <update id="updateByPrimaryKeySelective" parameterType="bd.conshare.web.module.user.domain.UserProfile" >
+        update t_user_profile
+        <set >
+             <if test="realName != null" >
+                real_name= #{realName},<!--用户真实姓名-->
+             </if>
+             <if test="gender != null" >
+                gender= #{gender},<!--0:未知，1:男，2:女-->
+             </if>
+             <if test="birthday != null" >
+                birthday= #{birthday},<!--用户生日-->
+             </if>
+             <if test="mobile != null" >
+                mobile= #{mobile},<!--用户手机号码-->
+             </if>
+             <if test="qq != null" >
+                qq= #{qq},<!---->
+             </if>
+             <if test="wechat != null" >
+                wechat= #{wechat},<!---->
+             </if>
+             <if test="interest != null" >
+                interest= #{interest},<!--兴趣-->
+             </if>
+             <if test="bio != null" >
+                bio= #{bio}<!--个人简介-->
+             </if>
+        </set>
+        where uid = #{uid}
+    </update>
+
+    <select id="query" resultMap="BaseResultMap">
+        select * from t_user_profile
+        <where>
+            <if test="query != null">
+                <trim suffixOverrides="AND">
+                    <if test="query.domain != null">
+                        <trim suffixOverrides="AND">
+                            <if test="query.domain.realName != null">real_name= #{query.domain.realName} AND </if><!--用户真实姓名-->
+                            <if test="query.domain.gender != null">gender= #{query.domain.gender} AND </if><!--0:未知，1:男，2:女-->
+                            <if test="query.domain.birthday != null">birthday= #{query.domain.birthday} AND </if><!--用户生日-->
+                            <if test="query.domain.mobile != null">mobile= #{query.domain.mobile} AND </if><!--用户手机号码-->
+                            <if test="query.domain.qq != null">qq= #{query.domain.qq} AND </if><!---->
+                            <if test="query.domain.wechat != null">wechat= #{query.domain.wechat} AND </if><!---->
+                            <if test="query.domain.interest != null">interest= #{query.domain.interest} AND </if><!--兴趣-->
+                            <if test="query.domain.bio != null">bio= #{query.domain.bio}</if><!--个人简介-->
+                        </trim>
+                        AND
+                    </if>
+
+                    <if test="query.compares != null">
+                        <trim suffixOverrides="AND">
+                            <foreach collection="query.compares" item="compare" separator="AND">
+                                `${compare.column}`
+                                <choose>
+                                    <when test="compare.type == 'lt'">&lt;</when>
+                                    <when test="compare.type == 'lte'">&lt;=</when>
+                                    <when test="compare.type == 'gt'">&gt;</when>
+                                    <when test="compare.type == 'gte'">&gt;=</when>
+                                </choose>
+                                '${compare.value}'
+                            </foreach>
+                        </trim>
+                        AND
+                    </if>
+
+                    <if test="query.andLikes != null">
+                        <trim suffixOverrides="AND">
+                            <foreach collection="query.andLikes" item="like" separator="AND">
+                                `${like.column}` like
+                                <choose>
+                                    <when test="like.leftLike and like.rightLike">concat('%','${like.keyword}','%')
+                                    </when>
+                                    <when test="like.leftLike">concat('%','${like.keyword}','')</when>
+                                    <when test="like.rightLike">concat('','${like.keyword}','%')</when>
+                                </choose>
+                            </foreach>
+                        </trim>
+                        AND
+                    </if>
+                    <if test="query.orLikes != null">
+                        <trim suffixOverrides="AND" prefix="(" suffix=")">
+                            <foreach collection="query.orLikes" item="like" separator="OR">
+                                `${like.column}` like
+                                <choose>
+                                    <when test="like.leftLike and like.rightLike">concat('%','${like.keyword}','%')
+                                    </when>
+                                    <when test="like.leftLike">concat('%','${like.keyword}','')</when>
+                                    <when test="like.rightLike">concat('','${like.keyword}','%')</when>
+                                </choose>
+                            </foreach>
+                        </trim>
+                    </if>
+                </trim>
+
+                <if test="query.orders != null">
+                    order by
+                    <foreach collection="query.orders" item="order" separator=",">
+                        `${order.column}` ${order.type}
+                    </foreach>
+                </if>
+
+            </if>
+        </where>
+    </select>
+
+</mapper>
