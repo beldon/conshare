@@ -39,6 +39,7 @@ public class UserController extends FrontControllerBase {
             List<CollectCategory> collectCategoryList = collectCategoryService.getAllCategory(uid);
             model.addAttribute("categorys", collectCategoryList);
         }
+        model.addAttribute("account", getCurrentUserAccount());
         return getTemplate("user/index");
     }
 
