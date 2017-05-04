@@ -50,4 +50,10 @@ public class CollectService extends ServiceBase implements ICollectService {
         return page;
     }
 
+    @Override
+    public void moveCategory(String catId, String targetCatId) {
+        Assert.notNull(catId, "category's id can not be null");
+        collectDao.moveCategory(catId, targetCatId);
+    }
+
 }

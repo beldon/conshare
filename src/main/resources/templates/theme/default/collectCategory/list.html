@@ -35,8 +35,8 @@
         <td th:text="${category.count}">收藏数</td>
         <td th:text="${#calendars.format(category.creTime,'yyyy-MM-dd')}">创建日期</td>
         <td>
-            <button class="layui-btn layui-btn-small layui-btn-normal">编辑</button>
-            <button class="layui-btn layui-btn-small layui-btn-danger">删除</button>
+            <button class="layui-btn layui-btn-small layui-btn-normal category-edit">编辑</button>
+            <button class="layui-btn layui-btn-small layui-btn-danger category-delete">删除</button>
         </td>
     </tr>
     </tbody>
@@ -44,7 +44,7 @@
 
 <script type="text/javascript" src="/static/plugins/layui/layui.js"></script>
 <!-- jQuery -->
-<script type="text/javascript" charset="utf8" src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
-<script type="text/javascript" src="/templates/theme/default/common/js/table-tool.js"></script>
+<!--<script type="text/javascript" charset="utf8" src="/static/plugins/jquery/jquery-3.2.0.min.js"></script>-->
+<script type="text/javascript" src="/templates/theme/default/collectCategory/js/list.js"></script>
 </body>
 </html>

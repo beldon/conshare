@@ -18,9 +18,10 @@ public interface ICollectCategoryService {
      *
      * @param uid  用户id
      * @param name 分类名称
+     * @param sort 排序
      * @return
      */
-    Optional<CollectCategory> addSave(String uid, String name);
+    Optional<CollectCategory> addSave(String uid, String name, Integer sort);
 
     /**
      * 添加一个分类
@@ -78,6 +79,7 @@ public interface ICollectCategoryService {
 
     /**
      * 查找或新增一个类目
+     *
      * @param uid  用户id
      * @param name 类目名称
      * @return
@@ -92,4 +94,12 @@ public interface ICollectCategoryService {
      * @return
      */
     List<CollectCategory> getAllCategory(String uid);
+
+    /**
+     * 删除分类
+     *
+     * @param id 分类id
+     */
+    void delete(String id);
+
 }

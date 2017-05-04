@@ -5,6 +5,7 @@ import bd.conshare.core.common.service.ServiceBase;
 import bd.conshare.web.module.collect.dao.ICollectCategoryDao;
 import bd.conshare.web.module.collect.domain.CollectCategory;
 import bd.conshare.web.module.collect.service.ICollectCategoryService;
+import bd.conshare.web.module.collect.service.ICollectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -24,14 +25,18 @@ public class CollectCategoryService extends ServiceBase implements ICollectCateg
     @Autowired
     private ICollectCategoryDao collectCategoryDao;
 
+    @Autowired
+    private ICollectService collectService;
+
     @Override
-    public Optional<CollectCategory> addSave(String uid, String name) {
+    public Optional<CollectCategory> addSave(String uid, String name, Integer sort) {
         Assert.notNull(uid, "uid can not be null");
         Assert.notNull(name, "name can not be null");
         CollectCategory collectCategory = new CollectCategory();
         collectCategory.setUid(uid);
         collectCategory.setName(name);
         collectCategory.setCreTime(new Date());
+        collectCategory.setSort(sort);
         return addSave(collectCategory);
     }
 
@@ -95,7 +100,7 @@ public class CollectCategoryService extends ServiceBase implements ICollectCateg
 
     @Override
     public Optional<CollectCategory> findOrNewByName(String uid, String name) {
-        return findByName(uid, name).map(Optional::of).orElseGet(() -> addSave(uid, name));
+        return findByName(uid, name).map(Optional::of).orElseGet(() -> addSave(uid, name, 0));
 
     }
 
@@ -104,5 +109,11 @@ public class CollectCategoryService extends ServiceBase implements ICollectCateg
         CollectCategory example = new CollectCategory();
         example.setUid(uid);
         return collectCategoryDao.query(Query.create().domain(example));
+    }
+
+    @Override
+    public void delete(String id) {
+        collectService.moveCategory(id, null);
+        collectCategoryDao.deleteByPrimaryKey(id);
     }
 }

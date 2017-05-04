@@ -30,4 +30,12 @@ public interface ICollectService {
      * @return
      */
     Page<Collect> findByPage(Page<Collect> page, String uid, String catId);
+
+    /**
+     * 将一个分类下的收藏一到另外一个分类下的收藏
+     *
+     * @param catId       分类id
+     * @param targetCatId 目标分类id，可为空
+     */
+    void moveCategory(String catId, String targetCatId);
 }

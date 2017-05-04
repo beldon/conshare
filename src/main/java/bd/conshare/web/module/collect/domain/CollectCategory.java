@@ -29,7 +29,7 @@ public class CollectCategory {
     /**
     * 排序,越小越靠前
     */
-    private Long sort;
+    private Integer sort;
     /**
     * 收藏数量
     */
@@ -75,11 +75,11 @@ public class CollectCategory {
         this.pid = pid;
     }
 
-    public Long getSort() {
+    public Integer getSort() {
         return sort;
     }
 
-    public void setSort(Long sort) {
+    public void setSort(Integer sort) {
         this.sort = sort;
     }
 
