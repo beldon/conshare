@@ -13,6 +13,16 @@ import java.util.Optional;
  */
 public interface ICollectService {
 
+
+    /**
+     * 根据id去查找收藏
+     *
+     * @param id
+     * @return
+     */
+    Optional<Collect> findById(String id);
+
+
     /**
      * 添加保存
      *
@@ -20,6 +30,14 @@ public interface ICollectService {
      * @return
      */
     Optional<Collect> addSave(Collect collect);
+
+    /**
+     * 编辑保存
+     *
+     * @param collect 收藏实体类
+     * @return
+     */
+    Optional<Collect> editSave(Collect collect);
 
     /**
      * 分页查找收藏
@@ -38,4 +56,10 @@ public interface ICollectService {
      * @param targetCatId 目标分类id，可为空
      */
     void moveCategory(String catId, String targetCatId);
+
+    /**
+     * 删除一个收藏
+     * @param id
+     */
+    void delete(String id);
 }

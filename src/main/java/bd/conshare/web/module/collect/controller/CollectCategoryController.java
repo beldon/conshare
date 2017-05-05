@@ -86,6 +86,7 @@ public class CollectCategoryController extends FrontControllerBase {
     @RequestMapping("/delete")
     @ResponseBody
     public ResData delete(@RequestParam("id") String id) {
+
         Optional<CollectCategory> categoryOptional = collectCategoryService.findById(id);
         if (!categoryOptional.isPresent()) {
             return ResDataUtils.getData(-1, "找不到要删除的分类");

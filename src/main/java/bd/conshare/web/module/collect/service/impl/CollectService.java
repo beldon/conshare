@@ -27,12 +27,28 @@ public class CollectService extends ServiceBase implements ICollectService {
     private ICollectDao collectDao;
 
     @Override
+    public Optional<Collect> findById(String id) {
+        Assert.notNull(id, "id can not be null");
+        Collect collect = collectDao.selectByPrimaryKey(id);
+        return Optional.ofNullable(collect);
+    }
+
+    @Override
     public Optional<Collect> addSave(Collect collect) {
         Assert.notNull(collect, "collect can not be null");
         Assert.notNull(collect.getUid(), "uid can not be null");
         Assert.notNull(collect.getUrl(), "url can not be null");
         collect.setCreTime(new Date());
         collectDao.insertSelective(collect);
+        return Optional.of(collect);
+    }
+
+    @Override
+    public Optional<Collect> editSave(Collect collect) {
+        Assert.notNull(collect, "collect can not be null");
+        Assert.notNull(collect.getId(), "id can not be null");
+        Assert.notNull(collect.getUrl(), "url can not be null");
+        collectDao.updateByPrimaryKeySelective(collect);
         return Optional.of(collect);
     }
 
@@ -54,6 +70,12 @@ public class CollectService extends ServiceBase implements ICollectService {
     public void moveCategory(String catId, String targetCatId) {
         Assert.notNull(catId, "category's id can not be null");
         collectDao.moveCategory(catId, targetCatId);
+    }
+
+    @Override
+    public void delete(String id) {
+        Assert.notNull(id, "id can not be null");
+        collectDao.deleteByPrimaryKey(id);
     }
 
 }

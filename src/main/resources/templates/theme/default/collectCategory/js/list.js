@@ -77,7 +77,6 @@ layui.use(['layer'], function () {
         layer.confirm('删除该分类后，该分类所有收藏都转到默认收藏，是否继续？', {
             btn: ['确认','取消'] //按钮
         }, function(){
-            layer.msg('确认', {icon: 1});
             var url = "/user/collect/category/delete";
             $.ajax({
                 url: url,

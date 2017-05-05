@@ -13,15 +13,15 @@
 <form class="layui-form " action="" id="actionForm" style="margin-top: 20px;width: 80%;">
     <input type="hidden" name="id" value="" th:value="${category.id}"/>
     <div class="layui-form-item">
-        <label class="layui-form-label">分列名称</label>
+        <label class="layui-form-label">分类名称</label>
         <div class="layui-input-block">
-            <input type="text" id="collect-title" name="name" th:value="${category.name}" autocomplete="off" placeholder="收藏标题" class="layui-input" />
+            <input type="text" id="collect-title" name="name" th:value="${category.name}" autocomplete="off" placeholder="分类名称" class="layui-input" />
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">分列排序</label>
+        <label class="layui-form-label">分类排序</label>
         <div class="layui-input-block">
-            <input type="text" id="collect-sort" name="sort" th:value="${category.sort}" autocomplete="off" placeholder="分列排序" class="layui-input" />
+            <input type="text" id="collect-sort" name="sort" th:value="${category.sort}" autocomplete="off" placeholder="分类排序" class="layui-input" />
         </div>
     </div>
 </form>

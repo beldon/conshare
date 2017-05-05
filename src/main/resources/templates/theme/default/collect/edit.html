@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <title>编辑收藏</title>
+    <meta name="renderer" content="webkit" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <link rel="stylesheet" href="/static/plugins/layui/css/layui.css"  media="all" />
+
+</head>
+<body>
+<form class="layui-form " action="" id="actionForm" style="margin-top: 20px;width: 80%;">
+    <input type="hidden" name="id" value="" th:value="${collect.id}"/>
+    <img src="" alt="" th:src="${collect.favicon}" style="margin-left: 112px;"/>
+    <div class="layui-form-item">
+        <label class="layui-form-label">标题</label>
+        <div class="layui-input-block">
+            <input type="text" id="collect-title" name="title" th:value="${collect.title}" autocomplete="off" placeholder="标题" class="layui-input" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">链接</label>
+        <div class="layui-input-block">
+            <input type="text" id="collect-sort" name="url" th:value="${collect.url}" autocomplete="off" placeholder="链接" class="layui-input" />
+        </div>
+    </div>
+    <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label">描述</label>
+        <div class="layui-input-block">
+            <textarea placeholder="描述" class="layui-textarea" name="description" th:text="${collect.description}"></textarea>
+        </div>
+    </div>
+    <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label">备注</label>
+        <div class="layui-input-block">
+            <textarea placeholder="收藏备注" class="layui-textarea" name="remark" th:text="${collect.remark}"></textarea>
+        </div>
+    </div>
+</form>
+
+<script src="/static/plugins/layui/layui.js" charset="utf-8"></script>
+<script src="/static/plugins/jquery/jquery-3.2.0.min.js" charset="utf-8"></script>
+<!--<script src="/templates/theme/default/collect/js/collect.js" charset="utf-8"></script>-->
+
+</body>
+</html>

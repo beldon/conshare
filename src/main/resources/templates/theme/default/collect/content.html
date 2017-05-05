@@ -7,9 +7,9 @@
     <img id="favicon" src="" th:src="${collect.favicon}"/>
     <h3><a href="http://www.baidu.com" target="_blank" th:href="${collect.url}" th:text="${collect.title}">百度一下，你就知道</a></h3>
     <div class="collect-description" th:text="${collect.description}">这是描述</div>
-    <div class="collect-btn">
-        <i class="layui-icon">&#xe642;</i>
-        <i class="layui-icon">&#xe640;</i>
+    <div class="collect-btn" th:id="${collect.id}">
+        <i class="layui-icon collect-edit">&#xe642;</i>
+        <i class="layui-icon collect-delete">&#xe640;</i>
     </div>
 </blockquote>
 </html>

@@ -46,6 +46,61 @@ public class CollectController extends FrontControllerBase{
     @Autowired
     private ICollectService collectService;
 
+    @RequestMapping("/edit")
+    public String edit(String id, Model model) {
+        if (StringUtils.hasText(id)) {
+            Optional<Collect> collectOptional = collectService.findById(id);
+            if (collectOptional.isPresent()) {
+                Collect collect = collectOptional.get();
+                if (getCurrentUid().equals(collect.getUid())) {
+                    model.addAttribute("collect", collect);
+                }else{
+                    model.addAttribute("collect", new Collect());
+                }
+            }
+        }
+        return getTemplate("collect/edit");
+    }
+
+    @RequestMapping("/editSave")
+    @ResponseBody
+    public ResData editSave(Collect collect) {
+        if (StringUtils.isEmpty(collect.getId())) {
+            return ResDataUtils.getData(-1, "请填入正确的id");
+        }
+        Optional<Collect> collectOptional = collectService.findById(collect.getId());
+        if (collectOptional.isPresent()) {
+            Collect temp = collectOptional.get();
+            if (!getCurrentUid().equals(temp.getUid())) {
+                return ResDataUtils.getData(-1, "无权限");
+            }
+            temp.setTitle(collect.getTitle());
+            temp.setDescription(collect.getDescription());
+            temp.setUrl(collect.getUrl());
+            temp.setRemark(collect.getRemark());
+            Optional<Collect> tempOptional = collectService.editSave(collect);
+            if (tempOptional.isPresent()) {
+                return ResDataUtils.success("success", tempOptional.get(),null);
+            }
+        }
+        return ResDataUtils.getData(-1, "error");
+    }
+
+    @RequestMapping("/delete")
+    @ResponseBody
+    public ResData delete(String id) {
+        Optional<Collect> collectOptional = collectService.findById(id);
+        if (collectOptional.isPresent()) {
+            Collect temp = collectOptional.get();
+            if (!getCurrentUid().equals(temp.getUid())) {
+                return ResDataUtils.getData(-1, "无权限");
+            }
+            collectService.delete(id);
+            return ResDataUtils.success("success");
+        }
+        return ResDataUtils.getData(-1, "error");
+    }
+
 
     @RequestMapping("/list")
     public String list(@RequestParam(value = "id" ,required = false) String id, Model model) {

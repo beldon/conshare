@@ -11,7 +11,11 @@ import bd.conshare.core.bean.ResData;
 public class ResDataUtils {
 
     public static ResData success(String msg) {
-        return getData(0, msg);
+        return success(msg, null);
+    }
+
+    public static ResData success(String msg, Object data) {
+        return success(msg, data, null);
     }
 
     public static ResData success(String msg, Object data, Object extra) {
