@@ -49,7 +49,7 @@ layui.use(['form', 'layedit', 'laydate'], function(){
             success: function (data) {
                 console.log(data);
                 if(data.code===0) {
-                    layer.msg("添加成功！，3秒后自动关闭");
+                    layer.msg("添加成功！3秒后自动关闭");
                     setTimeout("window.close()", 3000);
                 }else{
                     layer.msg(data.msg);
