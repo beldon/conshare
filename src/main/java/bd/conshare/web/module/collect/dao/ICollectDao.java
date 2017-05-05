@@ -5,14 +5,15 @@ import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 import bd.conshare.core.bean.Page;
 import bd.conshare.core.bean.Query;
+
 import java.util.List;
 
 /**
-* 用户收藏表
-* Created by Beldon.
-* Copyright (c) 2017-04-30, All Rights Reserved.
-* http://beldon.me
-*/
+ * 用户收藏表
+ * Created by Beldon.
+ * Copyright (c) 2017-04-30, All Rights Reserved.
+ * http://beldon.me
+ */
 @Repository
 public interface ICollectDao {
 
@@ -43,6 +44,11 @@ public interface ICollectDao {
 
     @ResultMap("BaseResultMap")
     List<Collect> query(@Param("collect") Page<Collect> page, @Param("query") Query query);
+
+
+    @Select("SELECT * from t_collect WHERE uid = #{uid} AND (category_id = '' OR ISNULL(category_id))")
+    @ResultMap("BaseResultMap")
+    List<Collect> findDefaultCategoryCollect(Page<Collect> page, @Param("uid") String uid);
 
 
     @Update("UPDATE t_collect SET category_id = #{targetCatId} WHERE category_id = #{sourceCatId}")

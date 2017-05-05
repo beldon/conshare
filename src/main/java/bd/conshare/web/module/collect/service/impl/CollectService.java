@@ -61,8 +61,18 @@ public class CollectService extends ServiceBase implements ICollectService {
         }
         if (StringUtils.hasText(catId)) {
             example.setCategoryId(catId);
+            collectDao.query(page, Query.create().domain(example).order(QueryOrder.desc("cre_time")));
+        }else{
+            page = findDefaultCategoryCollect(page, uid);
         }
-        collectDao.query(page, Query.create().domain(example).order(QueryOrder.desc("cre_time")));
+        return page;
+    }
+
+    @Override
+    public Page<Collect> findDefaultCategoryCollect(Page<Collect> page, String uid) {
+        Assert.notNull(page, "page can not be null");
+        Assert.notNull(uid, "uid can not be null");
+        collectDao.findDefaultCategoryCollect(page, uid);
         return page;
     }
 

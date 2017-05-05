@@ -49,6 +49,16 @@ public interface ICollectService {
      */
     Page<Collect> findByPage(Page<Collect> page, String uid, String catId);
 
+
+    /**
+     * 查找默认收藏夹收藏
+     *
+     * @param page  分类
+     * @param uid   用户id
+     * @return
+     */
+    Page<Collect> findDefaultCategoryCollect(Page<Collect> page, String uid);
+
     /**
      * 将一个分类下的收藏一到另外一个分类下的收藏
      *
@@ -59,6 +69,7 @@ public interface ICollectService {
 
     /**
      * 删除一个收藏
+     *
      * @param id
      */
     void delete(String id);

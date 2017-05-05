@@ -243,7 +243,8 @@ public class MybatisSpringPageInterceptor implements Interceptor {
      * @return
      */
     protected String buildCountSql(String sql) {
-        int index = sql.indexOf("from");
+        String tempSql = sql.toLowerCase();
+        int index = tempSql.indexOf("from");
         return "select count(*) " + sql.substring(index);
     }
 
