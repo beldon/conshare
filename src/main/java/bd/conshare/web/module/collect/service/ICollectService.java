@@ -1,8 +1,10 @@
 package bd.conshare.web.module.collect.service;
 
 import bd.conshare.core.bean.Page;
+import bd.conshare.core.utils.bookmarks.BookMarks;
 import bd.conshare.web.module.collect.domain.Collect;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -53,8 +55,8 @@ public interface ICollectService {
     /**
      * 查找默认收藏夹收藏
      *
-     * @param page  分类
-     * @param uid   用户id
+     * @param page 分类
+     * @param uid  用户id
      * @return
      */
     Page<Collect> findDefaultCategoryCollect(Page<Collect> page, String uid);
@@ -73,4 +75,12 @@ public interface ICollectService {
      * @param id
      */
     void delete(String id);
+
+    /**
+     * 导入BookMarks
+     *
+     * @param uid           用户id
+     * @param bookMarksList 书签数据
+     */
+    void importBookMarks(String uid, List<BookMarks> bookMarksList);
 }

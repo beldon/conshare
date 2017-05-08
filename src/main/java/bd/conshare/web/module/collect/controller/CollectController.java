@@ -4,6 +4,8 @@ import bd.conshare.core.bean.Page;
 import bd.conshare.core.bean.ResData;
 import bd.conshare.core.common.controller.FrontControllerBase;
 import bd.conshare.core.utils.ResDataUtils;
+import bd.conshare.core.utils.bookmarks.BookMarks;
+import bd.conshare.core.utils.bookmarks.BookMarksUtils;
 import bd.conshare.web.module.collect.domain.Collect;
 import bd.conshare.web.module.collect.domain.CollectCategory;
 import bd.conshare.web.module.collect.service.ICollectCategoryService;
@@ -15,10 +17,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StreamUtils;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
@@ -39,7 +39,7 @@ import java.util.Optional;
  */
 @Controller
 @RequestMapping("/user/collect")
-public class CollectController extends FrontControllerBase{
+public class CollectController extends FrontControllerBase {
     @Autowired
     private ICollectCategoryService collectCategoryService;
 
@@ -54,7 +54,7 @@ public class CollectController extends FrontControllerBase{
                 Collect collect = collectOptional.get();
                 if (getCurrentUid().equals(collect.getUid())) {
                     model.addAttribute("collect", collect);
-                }else{
+                } else {
                     model.addAttribute("collect", new Collect());
                 }
             }
@@ -80,7 +80,7 @@ public class CollectController extends FrontControllerBase{
             temp.setRemark(collect.getRemark());
             Optional<Collect> tempOptional = collectService.editSave(collect);
             if (tempOptional.isPresent()) {
-                return ResDataUtils.success("success", tempOptional.get(),null);
+                return ResDataUtils.success("success", tempOptional.get(), null);
             }
         }
         return ResDataUtils.getData(-1, "error");
@@ -103,7 +103,7 @@ public class CollectController extends FrontControllerBase{
 
 
     @RequestMapping("/list")
-    public String list(@RequestParam(value = "id" ,required = false) String id, Model model) {
+    public String list(@RequestParam(value = "id", required = false) String id, Model model) {
 
         CollectCategory category = null;
         if (StringUtils.hasText(id)) {
@@ -122,11 +122,11 @@ public class CollectController extends FrontControllerBase{
     }
 
     @RequestMapping("/content")
-    public String content(Page page,@RequestParam(value = "catId" ,required = false) String catId, Model model) {
+    public String content(Page page, @RequestParam(value = "catId", required = false) String catId, Model model) {
         page.setPageSize(8);
         String uid = getCurrentUid();
         if (StringUtils.hasText(uid)) {
-            page = collectService.findByPage(page, uid,catId);
+            page = collectService.findByPage(page, uid, catId);
         }
         model.addAttribute("page", page);
         return getTemplate("collect/content");
@@ -147,7 +147,7 @@ public class CollectController extends FrontControllerBase{
     public String tools(HttpServletRequest request, Model model) {
         String path = request.getContextPath();
         String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path + "/";
-        String collectJs = "javascript:(function(){var description;var desString='';var metas=document.getElementsByTagName('meta');for(var x=0,y=metas.length;x%3Cy;x++){if(metas[x].name.toLowerCase()==='description'){description=metas[x];}}if(description){desString='&description='+encodeURIComponent(description.content);}var win=window.open('"+basePath+"user/collect/collect?from=webtool&url='+encodeURIComponent(document.URL)+desString+'&title='+encodeURIComponent(document.title)+'&charset='+document.charset,'_blank');win.focus()})();";
+        String collectJs = "javascript:(function(){var description;var desString='';var metas=document.getElementsByTagName('meta');for(var x=0,y=metas.length;x%3Cy;x++){if(metas[x].name.toLowerCase()==='description'){description=metas[x];}}if(description){desString='&description='+encodeURIComponent(description.content);}var win=window.open('" + basePath + "user/collect/collect?from=webtool&url='+encodeURIComponent(document.URL)+desString+'&title='+encodeURIComponent(document.title)+'&charset='+document.charset,'_blank');win.focus()})();";
         model.addAttribute("collectJs", collectJs);
         return getTemplate("collect/tools");
     }
@@ -155,8 +155,8 @@ public class CollectController extends FrontControllerBase{
 
     @RequestMapping("/addCollect")
     @ResponseBody
-    public ResData addCollect(@ModelAttribute("collect") Collect collect,@RequestParam(value = "categoryId",required = false) String categoryId,
-                              @RequestParam(value = "newCategory",required = false) String newCategory) {
+    public ResData addCollect(@ModelAttribute("collect") Collect collect, @RequestParam(value = "categoryId", required = false) String categoryId,
+                              @RequestParam(value = "newCategory", required = false) String newCategory) {
         String uid = getCurrentUid();
 
         if (StringUtils.hasText(newCategory)) {
@@ -168,7 +168,7 @@ public class CollectController extends FrontControllerBase{
 
         collect.setUid(uid);
         Optional<Collect> collectOptional = collectService.addSave(collect);
-        return collectOptional.map(collect1 -> ResDataUtils.success("success", collect1, null)).orElseGet(() -> ResDataUtils.getData(-1,"error"));
+        return collectOptional.map(collect1 -> ResDataUtils.success("success", collect1, null)).orElseGet(() -> ResDataUtils.getData(-1, "error"));
     }
 
 
@@ -192,7 +192,7 @@ public class CollectController extends FrontControllerBase{
             StreamUtils.copy(inputStream, outputStream);
         } catch (Exception e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             if (inputStream != null) {
                 try {
                     inputStream.close();
@@ -209,4 +209,38 @@ public class CollectController extends FrontControllerBase{
             }
         }
     }
+
+
+    /**
+     * 导入书签
+     *
+     * @return
+     */
+    @GetMapping("/import")
+    public String importBookMark() {
+        return getTemplate("collect/import");
+    }
+
+    @PostMapping("/import")
+    @ResponseBody
+    public ResData doImportBookMarks(@RequestParam("bookMark") MultipartFile bookMark) {
+        InputStream inputStream = null;
+        try {
+            List<BookMarks> bookMarksList = BookMarksUtils.parse(inputStream = bookMark.getInputStream());
+            collectService.importBookMarks(getCurrentUid(), bookMarksList);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return ResDataUtils.getData(-1, "解析文件失败");
+        } finally {
+            if (inputStream != null) {
+                try {
+                    inputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return ResDataUtils.success("success");
+    }
+
 }

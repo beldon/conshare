@@ -4,8 +4,12 @@ import bd.conshare.core.bean.Page;
 import bd.conshare.core.bean.Query;
 import bd.conshare.core.bean.QueryOrder;
 import bd.conshare.core.common.service.ServiceBase;
+import bd.conshare.core.utils.bookmarks.BookMark;
+import bd.conshare.core.utils.bookmarks.BookMarks;
 import bd.conshare.web.module.collect.dao.ICollectDao;
 import bd.conshare.web.module.collect.domain.Collect;
+import bd.conshare.web.module.collect.domain.CollectCategory;
+import bd.conshare.web.module.collect.service.ICollectCategoryService;
 import bd.conshare.web.module.collect.service.ICollectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +17,7 @@ import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -25,6 +30,9 @@ public class CollectService extends ServiceBase implements ICollectService {
 
     @Autowired
     private ICollectDao collectDao;
+
+    @Autowired
+    private ICollectCategoryService collectCategoryService;
 
     @Override
     public Optional<Collect> findById(String id) {
@@ -62,7 +70,7 @@ public class CollectService extends ServiceBase implements ICollectService {
         if (StringUtils.hasText(catId)) {
             example.setCategoryId(catId);
             collectDao.query(page, Query.create().domain(example).order(QueryOrder.desc("cre_time")));
-        }else{
+        } else {
             page = findDefaultCategoryCollect(page, uid);
         }
         return page;
@@ -86,6 +94,50 @@ public class CollectService extends ServiceBase implements ICollectService {
     public void delete(String id) {
         Assert.notNull(id, "id can not be null");
         collectDao.deleteByPrimaryKey(id);
+    }
+
+    @Override
+    public void importBookMarks(String uid, List<BookMarks> bookMarksList) {
+        if (bookMarksList != null && StringUtils.hasText(uid)) {
+            for (BookMarks bookMarks : bookMarksList) {
+                String categoryName = bookMarks.getCategoryName().trim();
+                String categoryId = null;
+                if (StringUtils.hasText(categoryName)) {
+                    Optional<CollectCategory> categoryOptional = collectCategoryService.findOrNewByName(uid, categoryName);
+                    if (categoryOptional.isPresent()) {
+                        categoryId = categoryOptional.get().getId();
+                    }
+                }
+                List<BookMark> marks = bookMarks.getBookMarks();
+                if (marks != null) {
+                    for (BookMark mark : marks) {
+                        if (StringUtils.hasText(mark.getUrl())) {
+                            Collect example = new Collect();
+                            example.setUrl(mark.getUrl());
+                            List<Collect> list = collectDao.query(Query.create().domain(example));
+                            if (list == null || list.size() == 0) {
+                                example.setUid(uid);
+                                example.setTitle(mark.getTitle());
+                                example.setFavicon(mark.getIcon());
+                                example.setCreTime(mark.getAddDate());
+                                example.setCategoryId(categoryId);
+                                collectDao.insertSelective(example);
+                            }else{
+                                for (Collect collect : list) {
+                                    collect.setUid(uid);
+                                    collect.setTitle(mark.getTitle());
+                                    collect.setFavicon(mark.getIcon());
+                                    collect.setCreTime(mark.getAddDate());
+                                    collect.setCategoryId(categoryId);
+                                    collectDao.updateByPrimaryKeySelective(collect);
+                                }
+                            }
+
+                        }
+                    }
+                }
+            }
+        }
     }
 
 }

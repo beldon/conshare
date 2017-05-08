@@ -6,7 +6,7 @@ CREATE TABLE `t_collect` (
   `id` varchar(32) CHARACTER SET utf8mb4 NOT NULL COMMENT '收藏id',
   `title` varchar(255) CHARACTER SET utf8mb4 DEFAULT NULL COMMENT '标题',
   `description` text CHARACTER SET utf8mb4 COMMENT '描述',
-  `url` varchar(500) CHARACTER SET utf8mb4 NOT NULL COMMENT '网址',
+  `url` varchar(1000) CHARACTER SET utf8mb4 NOT NULL COMMENT '网址',
   `favicon` text COMMENT 'favicon',
   `logo_url` varchar(255) CHARACTER SET utf8mb4 DEFAULT NULL COMMENT 'logo链接',
   `charset` varchar(255) CHARACTER SET utf8mb4 DEFAULT 'utf-8' COMMENT '网页编码',
